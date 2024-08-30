@@ -1,0 +1,112 @@
+/*  Tailwind */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* font family */
+@font-face {
+    font-family: "MontserratItalic";
+    src: url('./assets/Fonts/Montserrat-Italic.ttf');
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "MontserratRegular";
+    src: url('./assets/Fonts/Montserrat-Regular.ttf');
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "MontserratMedium";
+    src: url('./assets/Fonts/Montserrat-Medium.ttf');
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "MontserratSemibold";
+    src: url('./assets/Fonts/Montserrat-SemiBold.ttf');
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "MontserratBold";
+    src: url('./assets/Fonts/Montserrat-Bold.ttf');
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "ComfortaaLight";
+    src: url('./assets/Fonts/Comfortaa-Light.ttf');
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "ComfortaaRegular";
+    src: url('./assets/Fonts/Comfortaa-Regular.ttf');
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "ComfortaaMedium";
+    src: url('./assets/Fonts/Comfortaa-Medium.ttf');
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "ComfortaaSemibold";
+    src: url('./assets/Fonts/Comfortaa-SemiBold.ttf');
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "ComfortaaBold";
+    src: url('./assets/Fonts/Comfortaa-Bold.ttf');
+    font-display: swap;
+}
+
+
+html {
+    scroll-behavior: smooth;
+}
+
+
+/* Estilos para la barra de desplazamiento */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #161616;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #2D2D2D;
+    border-radius: 12px;
+}
+
+/* Gecko (Mozilla Firefox) */
+::-moz-scrollbar {
+    width: 10px;
+}
+
+::-moz-scrollbar-track {
+    background-color: #f1f1f1;
+}
+
+::-moz-scrollbar-thumb {
+    background-color: #888;
+}
+
+/* MS (Microsoft Edge) */
+::-ms-scrollbar {
+    width: 10px;
+}
+
+::-ms-scrollbar-track {
+    background-color: #f1f1f1;
+}
+
+::-ms-scrollbar-thumb {
+    background-color: #888;
+}
