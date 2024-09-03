@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import Preloader from './components/Preloader';
+import Preloader from './components/Preloader/Preloader';
 import Login from './components/Login/Login';
 import { Routes, Route } from 'react-router-dom';
 

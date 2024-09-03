@@ -1,8 +1,9 @@
 import React from 'react';
+import './Preloader.css';
 
 const Preloader = () => {
     return (
-        <div className="w-full h-screen bg-cPurple flex justify-center items-center flex-col">
+        <div className="w-full h-screen bg-cPurple flex justify-center items-center flex-col preloader">
             <h2 data-aos="fade-up" className="text-cYellow text-7xl font-MontserratBold">
                 VetCare
             </h2>
