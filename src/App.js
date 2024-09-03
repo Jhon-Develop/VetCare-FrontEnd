@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import Preloader from './components/Preloader';
+import Login from './components/Login/Login';
+import { Routes, Route } from 'react-router-dom';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -13,7 +15,7 @@ function App() {
       setTimeout(() => {
         setIsLoading(false);
       }, 500); // Wait for the animation time before removing the preloader completely
-    }, 2000);
+    }, 3000);
 
     return () => clearTimeout(timer);
   }, []);
@@ -34,7 +36,9 @@ function App() {
         </div>
       ) : (
         <div>
-
+          <Routes>
+            <Route path="/" element={<Login />} />
+          </Routes>
         </div>
       )}
     </div>
