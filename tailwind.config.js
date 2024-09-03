@@ -25,6 +25,9 @@ module.exports = {
                 ComfortaaSemibold: ['ComfortaaSemibold'],
                 ComfortaaBold: ['ComfortaaBold'],
             },
+            borderRadius: {
+                'custom': '3rem',
+            },
         },
     },
     plugins: [],
