@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Dog from '../../assets/Images/image-login.png';
+import Dog from '../../assets/Images/img-login.png';
 
 const Login = () => {
     const [email, setEmail] = useState('');
