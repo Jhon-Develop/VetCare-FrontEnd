@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Dog from '../../assets/Images/img-login.png';
+import './Login.css';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -40,14 +41,19 @@ const Login = () => {
         }
     };
 
+    // redirigir a /register con el button de sing up
+    const handleSignUp = () => {
+        window.location.href = '/register';
+    };
+
     return (
-        <div className="w-full h-screen bg-cGreen flex flex-col md:flex-row">
+        <div className="w-full h-screen bg-cGreen flex flex-col md:flex-row login">
             {/* Form Section */}
-            <div className="w-full md:w-1/2 h-full flex flex-col justify-center items-center bg-cWhite rounded-tr-custom rounded-br-custom p-4 md:p-10">
+            <div className="w-full md:w-3/2 lg:w-1/2 h-full flex flex-col justify-center items-center bg-cWhite rounded-tr-custom rounded-br-custom p-4 md:p-10">
                 <h2 className="text-center text-cGreen text-4xl md:text-7xl font-MontserratBold">
                     Welcome back!
                 </h2>
-                <p className="text-cBlack text-lg md:text-3xl font-ConfortaaRegular text-center mt-4">
+                <p className="text-cBlack text-lg md:text-3xl font-MontserratRegular text-center mt-4">
                     Please give us basic information. Thanks!
                 </p>
                 <input 
@@ -69,6 +75,7 @@ const Login = () => {
                 <div className='flex flex-col md:flex-row gap-y-4 md:gap-x-8 mt-10 w-72 md:w-auto'>
                     <button 
                         type="button" 
+                        onClick={handleSignUp}
                         className="flex items-center justify-center w-full md:min-w-64 h-12 rounded-full border-2 border-cGreen text-cGreen text-base md:text-xl font-MontserratRegular p-4">
                         Sign up
                     </button>
@@ -82,7 +89,7 @@ const Login = () => {
             </div>
             
             {/* Image Section */}
-            <div className="hidden md:flex justify-end items-end w-1/2 h-full">
+            <div className="hidden md:flex justify-end items-end w-1/2 h-full login-image">
                 <img src={Dog} alt="Dog" className="max-w-xl h-auto" />
             </div>
         </div>
