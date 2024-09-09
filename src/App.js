@@ -5,6 +5,7 @@ import Preloader from './components/Preloader/Preloader';
 import Login from './components/Login/Login';
 import { Routes, Route } from 'react-router-dom';
 import Register from './components/Register/Register';
+import UpdateAccount from './components/UpdateAccount/UpdateAccount';
 
 
 function App() {
@@ -41,6 +42,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/updateAccount" element={<UpdateAccount />} />
           </Routes>
         </div>
       )}
