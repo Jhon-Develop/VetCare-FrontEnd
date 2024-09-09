@@ -4,6 +4,7 @@ import 'aos/dist/aos.css';
 import Preloader from './components/Preloader/Preloader';
 import Login from './components/Login/Login';
 import { Routes, Route } from 'react-router-dom';
+import Register from './components/Register/Register';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -38,6 +39,7 @@ function App() {
         <div>
           <Routes>
             <Route path="/" element={<Login />} />
+            <Route path="/register" element={<Register />} />
           </Routes>
         </div>
       )}
