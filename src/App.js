@@ -6,6 +6,7 @@ import Login from './components/Login/Login';
 import { Routes, Route } from 'react-router-dom';
 import Register from './components/Register/Register';
 import UpdateAccount from './components/UpdateAccount/UpdateAccount';
+import AdministratorPets from './components/Administrator/AdministratorPets';
 
 
 function App() {
@@ -43,6 +44,8 @@ function App() {
             <Route path="/" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/updateAccount" element={<UpdateAccount />} />
+            <Route path="/admin-pets" element={<AdministratorPets />} />
+            {/* <Route path="/admin-users" element={<AdministratorUsers />} /> */}
           </Routes>
         </div>
       )}
