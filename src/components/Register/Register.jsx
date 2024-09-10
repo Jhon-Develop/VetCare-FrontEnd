@@ -79,10 +79,34 @@ const Register = () => {
         return Object.keys(newErrors).length === 0;
     };
 
+    // Función para enviar los datos del formulario a la API
+    const submitFormData = async () => {
+        try {
+            const response = await fetch('https://your-api-endpoint.com/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const result = await response.json();
+            alert('Form submitted successfully!');
+            console.log('Success:', result);
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Failed to submit form');
+        }
+    };
+
     const handleSubmit = (event) => {
         event.preventDefault();
         if (validateForm()) {
-            alert('Form is valid, submitting data...', formData);
+            submitFormData(); // Llama a la función para enviar los datos
         } else {
             console.error('Form has errors, please fix them.');
         }
