@@ -9,6 +9,10 @@ import Pets from './components/CrudPets/ViewPets';
 import AddPets from './components/CrudPets/AddPets';
 import Appointment from './components/CrudPets/Appointment';
 
+import Register from './components/Register/Register';
+import UpdateAccount from './components/UpdateAccount/UpdateAccount';
+
+
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [hidePreloader, setHidePreloader] = useState(false);
@@ -46,6 +50,8 @@ function App() {
             <Route path="/add-pet" element={<AddPets />} />
             <Route path="/pets/:id" element={<ProfilePet />} />
             <Route path="/pets/:id/appointment" element={<Appointment />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/updateAccount" element={<UpdateAccount />} />
           </Routes>
         </div>
       )}
