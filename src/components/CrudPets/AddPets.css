@@ -1,0 +1,27 @@
+.addPets{
+    background-image: url('../../assets/Images/bg-template.png');
+    z-index: 1;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat; 
+    position: relative;
+}
+
+.addPets::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(108, 2, 147, 0.707);
+    z-index: -1;
+}
+
+/* Mantener el texto y el botón en el frente */
+.addPets h2,
+.addPets p,
+.addPets button {
+    position: relative;
+    z-index: 2;
+}
