@@ -106,7 +106,7 @@ const AdministratorPets = () => {
                 </main>
             ) : (
                 <p className="text-cBlack font-MontserratRegular text-5xl mt-10 text-center text-cGray">
-                    You do not have any registered user yet.
+                    You do not have any registered pets yet.
                 </p>
             )}
         </div>
