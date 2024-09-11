@@ -3,8 +3,11 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import Preloader from './components/Preloader/Preloader';
 import Login from './components/Login/Login';
+import ProfilePet from './components/CrudPets/ProfilePet';
 import { Routes, Route } from 'react-router-dom';
-
+import Pets from './components/CrudPets/ViewPets';
+import AddPets from './components/CrudPets/AddPets';
+import Appointment from './components/CrudPets/Appointment';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -39,6 +42,10 @@ function App() {
         <div>
           <Routes>
             <Route path="/" element={<Login />} />
+            <Route path="/pets" element={<Pets />} />
+            <Route path="/add-pet" element={<AddPets />} />
+            <Route path="/pets/:id" element={<ProfilePet />} />
+            <Route path="/pets/:id/appointment" element={<Appointment />} />
           </Routes>
         </div>
       )}
