@@ -3,7 +3,12 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import Preloader from './components/Preloader/Preloader';
 import Login from './components/Login/Login';
+import ProfilePet from './components/CrudPets/ProfilePet';
 import { Routes, Route } from 'react-router-dom';
+import Pets from './components/CrudPets/ViewPets';
+import AddPets from './components/CrudPets/AddPets';
+import Appointment from './components/CrudPets/Appointment';
+
 import Register from './components/Register/Register';
 import UpdateAccount from './components/UpdateAccount/UpdateAccount';
 import AdministratorPets from './components/Administrator/AdministratorPets';
@@ -43,6 +48,10 @@ function App() {
         <div>
           <Routes>
             <Route path="/" element={<Login />} />
+            <Route path="/pets" element={<Pets />} />
+            <Route path="/add-pet" element={<AddPets />} />
+            <Route path="/pets/:id" element={<ProfilePet />} />
+            <Route path="/pets/:id/appointment" element={<Appointment />} />
             <Route path="/register" element={<Register />} />
             <Route path="/updateAccount" element={<UpdateAccount />} />
             <Route path="/admin-pets" element={<AdministratorPets />} />
