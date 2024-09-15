@@ -242,7 +242,7 @@ const UpdateAccount = () => {
 
                 <p className="text-center text-cGray font-MontserratRegular text-base md:text-xl mt-7">
                     Do you have an account?{' '}
-                    <a href="#" className="text-cGreen hover:underline font-MontserratRegular">
+                    <a href="/" className="text-cGreen hover:underline font-MontserratRegular">
                         Login
                     </a>
                 </p>

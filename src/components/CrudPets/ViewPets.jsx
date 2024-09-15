@@ -60,7 +60,7 @@ const PetList = () => {
                             </div>
                         ))
                     ) : (
-                        <p className="text-cBlack font-MontserratRegular text-5xl mt-10">
+                        <p className="font-MontserratRegular text-5xl mt-10 text-center text-cGray">
                             You have no pets registered yet.
                         </p>
                     )}

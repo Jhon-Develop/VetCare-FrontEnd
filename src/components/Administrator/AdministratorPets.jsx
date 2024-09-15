@@ -30,9 +30,9 @@ const AdministratorPets = () => {
         window.location.href = '/admin-pets';
     };
 
-    const handleEditPet = () => {
-        window.location.href = '/admin-pets';
-    };
+    // const handleEditPet = () => {
+    //     window.location.href = '/admin-pets';
+    // };
 
     return (
         <div className="bg-cWhite h-screen w-full relative min-h-screen">
