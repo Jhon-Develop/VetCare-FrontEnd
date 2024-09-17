@@ -1,4 +1,4 @@
-.cards{
+.cards {
     background-image: url('../../assets/Images/bg-template.png');
     z-index: 1;
     background-size: cover;
@@ -18,12 +18,17 @@
     background-color: rgba(108, 2, 147, 0.707);
     z-index: -1;
     border-radius: 3rem;
+    transition: background-color 0.3s ease;
 }
 
-/* .learn{
-    border: 1px solid #F2E533;
-} */
+.purple-bg::before {
+    background-color: rgba(108, 2, 147, 0.707);
+}
 
-.cards{
+.green-bg::before {
+    background-color: rgba(7, 216, 174, 0.707);
+}
+
+.cards {
     box-shadow: 9px 9px 11px rgba(117, 2, 159, 0.516);
 }

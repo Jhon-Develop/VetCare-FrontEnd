@@ -13,6 +13,8 @@ import Register from './components/Register/Register';
 import UpdateAccount from './components/UpdateAccount/UpdateAccount';
 import { Sidebar } from '@phosphor-icons/react';
 import SidebarUser from './components/SidebarUser/SidebarUser';
+import AdministratorPets from './components/Administrator/AdministratorPets';
+import AdministratorUsers from './components/Administrator/AdministratorUsers';
 
 
 function App() {
@@ -54,8 +56,8 @@ function App() {
             <Route path="/pets/:id/appointment" element={<Appointment />} />
             <Route path="/register" element={<Register />} />
             <Route path="/updateAccount" element={<UpdateAccount />} />
-            <Route path="/sidebar" element={<SidebarUser />} />
-
+            <Route path="/admin-pets" element={<AdministratorPets />} />
+            <Route path="/admin-users" element={<AdministratorUsers />} />
           </Routes>
         </div>
       )}
