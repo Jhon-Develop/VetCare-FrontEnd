@@ -11,6 +11,8 @@ import Appointment from './components/CrudPets/Appointment';
 
 import Register from './components/Register/Register';
 import UpdateAccount from './components/UpdateAccount/UpdateAccount';
+import { Sidebar } from '@phosphor-icons/react';
+import SidebarUser from './components/SidebarUser/SidebarUser';
 import AdministratorPets from './components/Administrator/AdministratorPets';
 import AdministratorUsers from './components/Administrator/AdministratorUsers';
 
