@@ -26,14 +26,6 @@ const SidebarUser = ({ userId }) => { // Recibimos el userId como prop
         return user.firstName[0] + user.lastName[0];
     };
 
-    const capitalizeName = (name) => {
-        if (!name) return '';
-        return name
-            .split(' ')
-            .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-            .join(' ');
-    };
-
     return (
         <div className="flex h-fluid min-h-screen">
             <div className="w-5/6 bg-cWhite"></div>
@@ -42,7 +34,10 @@ const SidebarUser = ({ userId }) => { // Recibimos el userId como prop
                 <div>
                     <div className="mb-8 flex items-center flex justify-between">
                         <button><img className="w-4 h-4" src={Back} alt="Back" /></button>
-                        <h1 className="text-2xl font-bold text-cWhite">My Profile</h1>
+                        <h2 className="text-2xl font-bold text-cWhite">My Profile</h2>
+                        <div className="w-10 h-10 rounded-full bg-cGreen flex items-center justify-center text-lg font-bold mr-4 text-cWhite">
+                                <h2>VC</h2>
+                            </div>
                     </div>
 
                     <div className="flex items-center mb-16">
@@ -51,7 +46,7 @@ const SidebarUser = ({ userId }) => { // Recibimos el userId como prop
                                 {getInitials(user)}
                             </div>
                             <div className="flex flex-col text-cWhite">
-                                <h2 className=''>{user ? capitalizeName(`${user.name} ${user.lastName}`) : 'Cargando...'}</h2>
+                                <h2 className='capitalize'>{user ? (`${user.name} ${user.lastName}`) : 'Cargando...'}</h2>
                                 <p>Propietario(a)</p>
                             </div>
                         </div>
