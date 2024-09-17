@@ -1,21 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useNavigate } from "react-router-dom"; // Para obtener el id de la URL
-import axios from 'axios'; // Importamos axios para las solicitudes HTTP
+import { useNavigate } from "react-router-dom";
+import axios from 'axios';
 import Nav from '../Nav/Nav';
+import Modal from '../Modal/Modal'; // Importa el Modal
 import Sex from '../../assets/Images/generos.png';
 import Birthday from '../../assets/Images/birthday.png';
 import Weight from '../../assets/Images/escala-de-peso.png';
 import Footprint from '../../assets/Images/patas.png';
 import Folder from '../../assets/Images/folder-white.png';
+import Plus from '../../assets/Images/plus-white.png';
 
 const ProfilePet = () => {
     const { id } = useParams();
     const [petData, setPetData] = useState(null);
     const [appointments, setAppointments] = useState([]);
+    const [showModal, setShowModal] = useState(false); // Estado para manejar el modal
     const navigate = useNavigate();
 
-    // Función para obtener los datos de la mascota desde el backend
     useEffect(() => {
         const fetchPetData = async () => {
             try {
@@ -29,7 +31,6 @@ const ProfilePet = () => {
         fetchPetData();
     }, [id]);
 
-    // Función para obtener las citas de la mascota desde el backend
     useEffect(() => {
         const fetchAppointmentsData = async () => {
             try {
@@ -47,9 +48,25 @@ const ProfilePet = () => {
         return <p className='flex justify-center items-center mt-20 text-cPurple font-MontserratBold text-7xl'>Loading...</p>;
     }
 
-    // Función para hacer una cita
+    // Mostrar el modal al hacer clic en el botón de eliminar
+    const handleDeleteClick = () => {
+        setShowModal(true);
+    };
+
     const makeAppointment = () => {
         navigate(`/pets/${id}/appointment`);
+    };
+
+    // Función para confirmar la eliminación
+    const handleConfirmDelete = async () => {
+        try {
+            await axios.delete(`/api/pets/${id}`);
+            navigate("/pets"); // Redirigir a la página de listado de mascotas después de eliminar
+        } catch (error) {
+            console.error("Error deleting pet:", error);
+        } finally {
+            setShowModal(false); // Cerrar el modal
+        }
     };
 
     return (
@@ -63,28 +80,28 @@ const ProfilePet = () => {
                         </div>
                         <div className='text-cPurple justify-self-start'>
                             <h2 className='font-MontserratBold text-3xl lg:text-5xl'>Breed</h2>
-                            <p className='text-2xl font-MontserratRegular'>{petData.breed}</p> {/* Mostrar la raza */}
+                            <p className='text-2xl font-MontserratRegular'>{petData.breed}</p>
                         </div>
                         <div className="row-start-2 w-14 h-14 lg:w-20 lg:h-20 flex items-end justify-self-end">
                             <img src={Birthday} alt="Birthday" />
                         </div>
                         <div className="row-start-2 text-cPurple justify-self-start">
                             <h2 className='font-MontserratBold text-3xl lg:text-5xl'>Date Birthday</h2>
-                            <p className='text-2xl font-MontserratRegular'>{new Date(petData.birthdate).toLocaleDateString()}</p> {/* Fecha de cumpleaños */}
+                            <p className='text-2xl font-MontserratRegular'>{new Date(petData.birthdate).toLocaleDateString()}</p>
                         </div>
                         <div className="row-start-3 w-14 h-14 lg:w-20 lg:h-20 flex items-end justify-self-end">
                             <img src={Weight} alt="Weight" />
                         </div>
                         <div className="row-start-3 text-cPurple justify-self-start">
                             <h2 className='font-MontserratBold text-3xl lg:text-5xl'>Weight</h2>
-                            <p className='text-2xl font-MontserratRegular'>{petData.weight} Kg</p> {/* Peso */}
+                            <p className='text-2xl font-MontserratRegular'>{petData.weight} Kg</p>
                         </div>
                         <div className="row-start-4 w-14 h-14 lg:w-20 lg:h-20 flex items-end justify-self-end">
                             <img src={Sex} alt="Sex" />
                         </div>
                         <div className="row-start-4 text-cPurple justify-self-start">
                             <h2 className='font-MontserratBold text-3xl lg:text-5xl'>Sex</h2>
-                            <p className='text-2xl font-MontserratRegular'>{petData.sex}</p> {/* Sexo */}
+                            <p className='text-2xl font-MontserratRegular'>{petData.sex}</p>
                         </div>
                         <div className='row-start-5 self-start justify-self-end'>
                             <button className='bg-cWhite text-cGreen px-4 lg:px-6 py-1 lg:py-2 rounded-2xl border-2 border-cGreen'>
@@ -92,7 +109,8 @@ const ProfilePet = () => {
                             </button>
                         </div>
                         <div className='row-start-5 self-start justify-self-start'>
-                            <button className='bg-cGreen text-cWhite px-4 lg:px-4 py-1 lg:py-2 rounded-2xl border-2 border-cGreen'>
+                            {/* Solo cambiaremos este botón para usar el Modal */}
+                            <button className='bg-cGreen text-cWhite px-4 lg:px-4 py-1 lg:py-2 rounded-2xl border-2 border-cGreen' onClick={handleDeleteClick}>
                                 <h2 className='font-MontserratRegular text-lg lg:text-2xl'>Delete</h2>
                             </button>
                         </div>
@@ -116,21 +134,23 @@ const ProfilePet = () => {
                                 <img src={Folder} alt="Folder" />
                             </div>
                             <div>
-                                <p className='text-cWhite text-lg lg:text-2xl'>Appointment Type: {appointment.appointmentType}</p>
-                                <p className='text-cWhite text-lg lg:text-2xl'>Date: {new Date(appointment.date).toLocaleDateString()}</p>
-                                <p className='text-cWhite text-lg lg:text-2xl'>Description: {appointment.description}</p>
+                                <h3 className='text-cWhite font-MontserratBold text-xl lg:text-2xl'>{appointment.name}</h3>
+                                <p className='text-cWhite font-MontserratRegular text-lg'>{appointment.date}</p>
                             </div>
                         </div>
                     ))}
                 </div>
                 <button
                     onClick={makeAppointment}
-                    className="bg-cPurple text-white w-12 h-12 lg:w-16 lg:h-14 rounded-full shadow-lg hover:bg-[#4e066b] transition duration-300 text-3xl lg:text-5xl fixed bottom-5 right-5 flex justify-center">
-                    &#43;
+                    className="fixed bottom-4 right-4 bg-cPurple text-white px-4 py-2 rounded-full shadow-lg hover:bg-[#4e066b] w-14 h-14 transition duration-300 text-3xl lg:text-5xl fixed bottom-5 right-5 flex justify-cente ">
+                    <img src={Plus} alt="Add appointment" />
                 </button>
             </div>
+
+            {/* Modal para confirmación de eliminación */}
+            <Modal show={showModal} onClose={() => setShowModal(false)} onConfirm={handleConfirmDelete} />
         </div>
     );
-}
+};
 
 export default ProfilePet;
