@@ -11,8 +11,11 @@ import Appointment from './components/CrudPets/Appointment';
 
 import Register from './components/Register/Register';
 import UpdateAccount from './components/UpdateAccount/UpdateAccount';
+import { Sidebar } from '@phosphor-icons/react';
+import SidebarUser from './components/SidebarUser/SidebarUser';
 import AdministratorPets from './components/Administrator/AdministratorPets';
 import AdministratorUsers from './components/Administrator/AdministratorUsers';
+import RecoveryPassword from './components/RecoveryPassword/RecoveryPassword';
 
 
 function App() {
@@ -56,6 +59,7 @@ function App() {
             <Route path="/updateAccount" element={<UpdateAccount />} />
             <Route path="/admin-pets" element={<AdministratorPets />} />
             <Route path="/admin-users" element={<AdministratorUsers />} />
+            <Route path="/recovery-password" element={<RecoveryPassword />} />
           </Routes>
         </div>
       )}
