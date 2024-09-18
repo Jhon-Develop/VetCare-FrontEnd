@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Dog from '../../assets/Images/img-login.png';
 import './Login.css';
 
@@ -15,11 +15,10 @@ const Login = () => {
         }
     };
 
-    const handleLogin = async (e) => {
-        e.preventDefault();
-
+    // Iniciar sesión
+    const handleLogin = async () => {
         try {
-            const response = await fetch('https://tu-backend.com/api/login', {
+            const response = await fetch('https://vetcarecode.azurewebsites.net/api/Auth/Login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -30,8 +29,9 @@ const Login = () => {
             const data = await response.json();
 
             if (response.ok) {
+                localStorage.setItem('token', data.token); // Guarda el token en localStorage
                 alert('Login exitoso');
-                window.location.href = '/Home';
+                window.location.href = '/Home'; // Redirige inmediatamente
             } else {
                 alert(data.message || 'Error en el login');
             }
@@ -41,14 +41,56 @@ const Login = () => {
         }
     };
 
-    // redirigir a /register con el button de sing up
+    // Detectar "Enter" para login
+    useEffect(() => {
+        const handleKeyDown = (e) => {
+            if (e.key === 'Enter') {
+                handleLogin();
+            }
+        };
+        window.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [email, password]);
+
+    // Redirigir a /register con el botón de Sign Up
     const handleSignUp = () => {
         window.location.href = '/register';
     };
 
+    // Manejo de "Forgot Password"
+    const handleForgotPassword = async () => {
+        if (!email) {
+            alert('Por favor ingresa tu correo antes de continuar.');
+            return;
+        }
+
+        try {
+            const response = await fetch('https://vetcarecode.azurewebsites.net/api/Auth/RequestPasswordReset', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email }),
+            });
+
+            if (response.ok) {
+                alert('Revisa tu correo por favor.');
+            } else {
+                alert('Error al solicitar el restablecimiento de la contraseña.');
+            }
+        } catch (error) {
+            console.error('Error al solicitar el restablecimiento de contraseña:', error);
+            alert('Ocurrió un error, por favor intenta de nuevo.');
+        }
+    };
+
     return (
         <div className="w-full h-screen bg-cGreen flex flex-col md:flex-row login">
-            {/* Form Section */}
+            {/* Sección de formulario */}
             <div className="w-full md:w-3/2 lg:w-1/2 h-full flex flex-col justify-center items-center bg-cWhite rounded-tr-custom rounded-br-custom p-4 md:p-10">
                 <h2 className="text-center text-cGreen text-4xl md:text-7xl font-MontserratBold">
                     Welcome back!
@@ -72,6 +114,11 @@ const Login = () => {
                     onChange={handleInputChange}
                     className="w-3/5 md:min-w-96 p-4 h-12 mt-6 rounded-lg border-2 border-cGreen text-cBlack text-base md:text-xl font-MontserratRegular" 
                 />
+                <p 
+                    onClick={handleForgotPassword}
+                    className="text-cGreen text-sm md:text-lg mt-2 cursor-pointer">
+                    Forgot Password?
+                </p>
                 <div className='flex flex-col md:flex-row gap-y-4 md:gap-x-8 mt-10 w-72 md:w-auto'>
                     <button 
                         type="button" 
@@ -87,8 +134,8 @@ const Login = () => {
                     </button>
                 </div>
             </div>
-            
-            {/* Image Section */}
+
+            {/* Sección de imagen */}
             <div className="hidden md:flex justify-end items-end w-1/2 h-full login-image">
                 <img src={Dog} alt="Dog" className="max-w-xl h-auto" />
             </div>

@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import Trash from "../../assets/Images/Trash-cPurple.png";
+import { useNavigate } from "react-router-dom";
 
 const Modal = ({ itemType, itemId, onDeleteSuccess, onCancel }) => {
+    const navigate = useNavigate();
     const deleteItem = async () => {
         try {
             let url;
@@ -20,6 +22,7 @@ const Modal = ({ itemType, itemId, onDeleteSuccess, onCancel }) => {
 
             if (response.ok) {
                 alert(`${itemType} eliminado exitosamente`);
+                navigate("/pets");
                 onDeleteSuccess();
             } else {
                 alert(`Error eliminando el ${itemType}`);

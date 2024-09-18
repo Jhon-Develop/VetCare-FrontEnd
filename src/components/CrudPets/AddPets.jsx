@@ -1,27 +1,31 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { jwtDecode } from 'jwt-decode'; 
 import Dog from '../../assets/Images/pets-register.png';
+import Exit from '../../assets/Images/letter-x-white.png';
 import './AddPets.css';
 
 const AddPets = () => {
     const navigate = useNavigate();
+
     const ClickExit = (e) => {
         e.preventDefault();
         navigate('/pets');
-    }
+    };
 
     const [pet, setPet] = useState({
         name: '',
         breed: '',
         weight: '',
-        birthdate: '',
+        birthDate: '',
         sex: '',
         image: null,
     });
 
     const [imagePreview, setImagePreview] = useState(null);
     const [errors, setErrors] = useState({});
+    const [uploadError, setUploadError] = useState(null); // Para manejar errores en la subida de imagen
 
     // Validaciones de campos vacíos
     const validateFields = () => {
@@ -29,7 +33,7 @@ const AddPets = () => {
         if (!pet.name) errors.name = "Name is required";
         if (!pet.breed) errors.breed = "Breed is required";
         if (!pet.weight) errors.weight = "Weight is required";
-        if (!pet.birthdate) errors.birthdate = "Birthdate is required";
+        if (!pet.birthDate) errors.birthDate = "Birthdate is required";
         if (!pet.sex) errors.sex = "Sex is required";
         return errors;
     };
@@ -42,70 +46,78 @@ const AddPets = () => {
     const handleImageChange = (e) => {
         const file = e.target.files[0];
         if (file) {
+            if (!file.type.startsWith('image/')) {
+                setUploadError('Please upload a valid image');
+                return;
+            }
             setPet({ ...pet, image: file });
             setImagePreview(URL.createObjectURL(file));
+            setUploadError(null);
         }
     };
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
+    e.preventDefault();
 
-        const validationErrors = validateFields();
-        if (Object.keys(validationErrors).length > 0) {
-            setErrors(validationErrors);
+    const validationErrors = validateFields();
+    if (Object.keys(validationErrors).length > 0) {
+        setErrors(validationErrors);
+        return;
+    }
+
+    try {
+        const token = localStorage.getItem('token');
+
+        if (!token) {
+            console.error("No se encontró un token de usuario en localStorage");
             return;
         }
 
-        try {
-            const token = localStorage.getItem('token');
+        const decoded = jwtDecode(token);
+        console.log("Token decodificado:", decoded); // Verifica el contenido del token decodificado
+        const user_id = decoded.Id;
+        if (!user_id) {
+            console.error("No se encontró el ID de usuario (nameid) en el token decodificado");
+            return;
+        }
 
-            if (!token) {
-                console.error("No se encontró un token de usuario");
-                return;
+        const formData = new FormData();
+        formData.append('name', pet.name);
+        formData.append('breed', pet.breed);
+        formData.append('weight', pet.weight);
+        formData.append('birthDate', pet.birthDate);
+        formData.append('sex', pet.sex);
+        if (pet.image) formData.append('image', pet.image); // Verifica que la imagen esté
+        formData.append('user_id', user_id);
+
+        const config = {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'Authorization': `Bearer ${token}`
             }
+        };
 
-            const user_id = JSON.parse(atob(token.split('.')[1])).user_id;
+        const response = await axios.post('https://vetcarecode.azurewebsites.net/api/v1/Pet/CreatePet', formData, config);
 
-            // Crear FormData para enviar la mascota al backend
-            const formData = new FormData();
-            formData.append('name', pet.name);
-            formData.append('breed', pet.breed);
-            formData.append('weight', pet.weight);
-            formData.append('birthdate', pet.birthdate);
-            formData.append('sex', pet.sex);
-            formData.append('image', pet.image);
-            formData.append('user_id', user_id);
-
-            // Configuración del encabezado con el token
-            const config = {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                    'Authorization': `Bearer ${token}`
-                }
-            };
-
-            // Hacer la solicitud POST al backend para agregar la nueva mascota
-            const response = await axios.post('https://tu-api-backend.com/api/pets', formData, config);
-
-            // Si la solicitud es exitosa, mostrar un mensaje y redirigir a la lista de mascotas
-            if (response.status === 201) {
-                alert('Mascota agregada exitosamente');
-                navigate('/pets');
-            }
-
-        } catch (error) {
-            console.error("Error agregando la mascota:", error);
+        if (response.status === 201) {
+            alert('Mascota agregada exitosamente');
+            navigate('/pets');
+        } else {
+            console.error("Error en la respuesta del servidor:", response);
             alert('Hubo un error al agregar la mascota. Por favor, inténtalo de nuevo.');
         }
-    };
+
+    } catch (error) {
+        console.error("Error agregando la mascota:", error.response ? error.response.data : error.message);
+        alert('Hubo un error al agregar la mascota. Por favor, inténtalo de nuevo.');
+    }
+};
+
 
     return (
         <div className="bg-cPurple w-full h-screen flex justify-end items-end addPets">
-            <form
-                type="submit"
-                onSubmit={handleSubmit}
-                className="w-full md:w-3/4 lg:w-1/2 h-full flex flex-col justify-center items-center bg-cWhite rounded-tr-custom rounded-br-custom p-4 md:p-8 sm:h-screen overflow-y-auto">
-                <div className="flex flex-col items-center justify-center w-full ">
+            <form onSubmit={handleSubmit} className="w-full md:w-3/4 lg:w-1/2 h-full flex flex-col justify-center items-center bg-cWhite rounded-tr-custom rounded-br-custom p-4 md:p-8 sm:h-screen overflow-y-auto">
+                <div className="flex flex-col items-center justify-center w-full">
                     <h2 className="text-center text-cPurple text-3xl md:text-6xl md:mt-24 font-MontserratBold">
                         We Love <br /> Your Pets!
                     </h2>
@@ -145,13 +157,13 @@ const AddPets = () => {
 
                     <input
                         type="date"
-                        name="birthdate"
-                        value={pet.birthdate}
+                        name="birthDate"
+                        value={pet.birthDate}
                         onChange={handleInputChange}
                         className="w-full md:w-4/5 p-3 md:p-4 h-12 md:h-14 rounded-2xl border border-cPurple text-cBlack bg-cWhite text-sm md:text-base mt-4 md:mt-6"
-                        max={new Date().toISOString().split("T")[0]} // Evitar seleccionar una fecha futura
+                        max={new Date().toISOString().split("T")[0]} // Solo la parte de la fecha
                     />
-                    {errors.birthdate && <p className="text-red-500 text-xs md:text-sm">{errors.birthdate}</p>}
+                    {errors.birthDate && <p className="text-red-500 text-xs md:text-sm">{errors.birthDate}</p>}
 
                     <select
                         name="sex"
@@ -172,7 +184,7 @@ const AddPets = () => {
                         onChange={handleImageChange}
                         className="w-full md:w-4/5 p-3 md:p-4 h-12 md:h-14 rounded-2xl border border-cPurple text-cBlack bg-cWhite text-sm md:text-base mt-4 md:mt-6"
                     />
-                    {errors.image && <p className="text-red-500 text-xs md:text-sm">{errors.image}</p>}
+                    {uploadError && <p className="text-red-500 text-xs md:text-sm">{uploadError}</p>}
 
                     {imagePreview && (
                         <img
@@ -184,24 +196,24 @@ const AddPets = () => {
 
                     <button
                         type="submit"
-                        className="flex items-center justify-center w-full md:w-4/5 h-12 md:h-14 rounded-2xl border border-cPurple bg-cPurple text-cWhite text-sm md:text-xl font-MontserratRegular mt-6 md:mt-8"
+                        className="flex items-center justify-center w-full md:w-4/5 h-12 md:h-14 rounded-2xl border border-cPurple bg-cPurple text-cWhite text-sm md:text-lg mt-6"
                     >
-                        Save
+                        Add Pet
                     </button>
+
                 </div>
             </form>
-
-            <div className="hidden md:flex justify-end items-end w-1/2 h-full">
-                <div className='bg-cGreen w-8 h-8 lg:w-10 lg:h-8 rounded-full shadow-lg hover:bg-[#039978] transition duration-300 text-2xl lg:text-2xl fixed top-5 right-5 flex justify-center text-cWhite'>
+            <div className='hidden md:flex justify-end items-end w-1/2 h-full'>
+                <div className='bg-cGreen w-14 h-14 lg:w-14 lg:h-14 px-4 py-2 rounded-full shadow-lg hover:bg-[#039978] transition duration-300 text-2xl lg:text-2xl fixed top-5 right-5 flex justify-center items-center text-cWhite'>
                     <button
-                        type='button'
-                        onClick={ClickExit}>
-                        X
+                        onClick={ClickExit}
+                        className="">
+                        <img src={Exit} alt="Add user" />
                     </button>
                 </div>
                 <img src={Dog} alt="Dog" className="max-w-xs md:max-w-xl h-auto" />
             </div>
-        </div >
+        </div>
     );
 };
 
