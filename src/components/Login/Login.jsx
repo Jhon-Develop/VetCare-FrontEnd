@@ -76,6 +76,7 @@ const Login = () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ email }),
+                mode: 'no-cors',
             });
 
             if (response.ok) {
