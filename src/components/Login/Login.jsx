@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Dog from '../../assets/Images/img-login.png';
 import './Login.css';
-import { jwtDecode } from 'jwt-decode'; // Asegúrate de instalar esta librería
+import {jwtDecode} from 'jwt-decode'; // Asegúrate de que esté instalado correctamente
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -16,15 +16,15 @@ const Login = () => {
         }
     };
 
-    // Iniciar sesión
-    const handleLogin = async () => {
+    // Memoriza la función para evitar que se redefina en cada render
+    const handleLogin = useCallback(async () => {
         try {
             const response = await fetch('https://vetcare-backend.azurewebsites.net/api/Auth/Login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ email, password }), // Asegúrate de que estos campos son los correctos
+                body: JSON.stringify({ email, password }),
             });
 
             const data = await response.json();
@@ -42,23 +42,12 @@ const Login = () => {
                 }
             } else {
                 alert(data.message || 'Error en el login');
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    alert(errorData.message || 'Error en el login');
-                    return;
-                }
-        
-                const data = await response.json();
-                localStorage.setItem('token', data.token);
-                alert('Login exitoso');
-                window.location.href = '/Home';
             }
-            
         } catch (error) {
             console.error('Error al intentar iniciar sesión:', error);
             alert('Ocurrió un error, por favor intenta de nuevo.');
         }
-    };
+    }, [email, password]);
 
     // Detectar "Enter" para login
     useEffect(() => {
@@ -72,7 +61,7 @@ const Login = () => {
         return () => {
             window.removeEventListener('keydown', handleKeyDown);
         };
-    }, [email, password]);
+    }, [handleLogin]);
 
     // Redirigir a /register con el botón de Sign Up
     const handleSignUp = () => {
@@ -159,6 +148,6 @@ const Login = () => {
             </div>
         </div>
     );
-}
+};
 
 export default Login;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 import Cat from '../../assets/Images/img-register.png';
@@ -64,16 +64,16 @@ const UpdateAccount = () => {
         return Object.keys(newErrors).length === 0;
     };
 
-    const getUserIdFromToken = () => {
+    const getUserIdFromToken = useCallback(() => {
         const token = localStorage.getItem('token');
         if (token) {
             const decodedToken = jwtDecode(token);
             return decodedToken.Id;
         }
         return null;
-    };
+    }, []);
 
-    const fetchUserData = async () => {
+    const fetchUserData = useCallback(async () => {
         const id = getUserIdFromToken();
         if (!id) {
             console.error('User ID is missing');
@@ -97,16 +97,16 @@ const UpdateAccount = () => {
         } catch (error) {
             console.error('Error fetching user data:', error);
         }
-    };
+    }, [getUserIdFromToken]);
 
-    const fetchDocumentTypes = async () => {
+    const fetchDocumentTypes = useCallback(async () => {
         try {
             const response = await axios.get('https://vetcare-backend.azurewebsites.net/api/v1/DocumentTypes');
             setDocumentTypes(response.data);
         } catch (error) {
             console.error('Error fetching document types:', error);
         }
-    };
+    }, []);
 
     const updateUserData = async () => {
         try {
@@ -140,7 +140,7 @@ const UpdateAccount = () => {
     useEffect(() => {
         fetchUserData();
         fetchDocumentTypes();
-    }, []);
+    }, [fetchUserData, fetchDocumentTypes]);
 
     return (
         <div>
