@@ -23,18 +23,19 @@ const Login = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ email, password }),
+                body: JSON.stringify({ email, password }), // Asegúrate de que estos campos son los correctos
             });
-
-            const data = await response.json();
-
-            if (response.ok) {
-                localStorage.setItem('token', data.token);
-                alert('Login exitoso');
-                window.location.href = '/Home';
-            } else {
-                alert(data.message || 'Error en el login');
+    
+            if (!response.ok) {
+                const errorData = await response.json();
+                alert(errorData.message || 'Error en el login');
+                return;
             }
+    
+            const data = await response.json();
+            localStorage.setItem('token', data.token);
+            alert('Login exitoso');
+            window.location.href = '/Home';
         } catch (error) {
             console.error('Error al intentar iniciar sesión:', error);
             alert('Ocurrió un error, por favor intenta de nuevo.');
