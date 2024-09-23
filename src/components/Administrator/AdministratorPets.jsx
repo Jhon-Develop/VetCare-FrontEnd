@@ -30,12 +30,13 @@ const AdministratorPets = () => {
         window.location.href = '/admin-pets';
     };
 
-    // const handleEditPet = () => {
-    //     window.location.href = '/admin-pets';
-    // };
+    const handleEditPet = (petId) => {
+        window.location.href = `/pets/${petId}/update`;
+    };
+
 
     return (
-        <div className="bg-cWhite h-screen w-full relative min-h-screen">
+        <div className="bg-cWhite h-fluid min-h-screen w-full relative min-h-screen">
             <Header />
 
             {/* Sidebar */}
@@ -94,7 +95,7 @@ const AdministratorPets = () => {
                                             <td className="whitespace-nowrap px-3 py-4 text-base text-gray-500">{pet.dateOfBirth}</td>
                                             <td className="whitespace-nowrap px-3 py-4 text-base text-gray-500">{pet.sex}</td>
                                             <td className="relative py-4 pl-3 pr-4 flex justify-center items-center sm:pr-6 space-x-4">
-                                                <button><img className='w-6 h-6 ' src={Edit} alt="Edit" /></button>
+                                                <button onClick={() =>handleEditPet(pet.id)}><img className='w-6 h-6 ' src={Edit} alt="Edit" /></button>
                                                 <button className='bg-cPurple w-8 h-8 flex justify-center items-center rounded-lg'><img className='w-6 h-6 ' src={Trash} alt="Delete" /></button>
                                             </td>
                                         </tr>

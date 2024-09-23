@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Dog from '../../assets/Images/img-login.png';
 import './Login.css';
+import {jwtDecode} from 'jwt-decode'; // Asegúrate de instalar esta librería
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -30,8 +31,15 @@ const Login = () => {
 
             if (response.ok) {
                 localStorage.setItem('token', data.token);
-                alert('Login exitoso');
-                window.location.href = '/Home';
+                const role = jwtDecode(data.token).Rol; // Decodificar el token para obtener el rol
+
+                if (role === "1") {
+                    window.location.href = '/admin-users';
+                } else if (role === "2") {
+                    window.location.href = '/Home';
+                } else {
+                    alert('Rol no reconocido');
+                }
             } else {
                 alert(data.message || 'Error en el login');
             }
@@ -53,7 +61,6 @@ const Login = () => {
         return () => {
             window.removeEventListener('keydown', handleKeyDown);
         };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [email, password]);
 
     // Redirigir a /register con el botón de Sign Up

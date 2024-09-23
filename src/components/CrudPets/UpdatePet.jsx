@@ -8,7 +8,7 @@ import './UpdatePet.css';
 
 const UpdatePet = () => {
     const navigate = useNavigate();
-    const { id } = useParams(); // Para obtener el id de la mascota de la URL
+    const { id } = useParams(); // Obtener el ID de la mascota de la URL
 
     const [pet, setPet] = useState({
         name: '',
@@ -36,10 +36,22 @@ const UpdatePet = () => {
                 const response = await axios.get(`https://vetcare-backend.azurewebsites.net/api/v1/Pet/petById/${id}`, config);
                 const petData = response.data;
 
-                setPet(petData);  // Llenar los campos con la data de la mascota
-                setOriginalPet(petData);  // Guardar los datos originales para comparaciones
+                // Convertir el weight de string a int (si es necesario)
+                const weightAsInt = parseInt(petData.weight, 10) || 0;
+
+                setPet({
+                    ...petData,
+                    weight: weightAsInt, // Almacenar el peso como entero
+                });
+
+                setOriginalPet({
+                    ...petData,
+                    weight: weightAsInt, // También almacenar en el original para comparaciones
+                });
+
+                // Si la imagen no es nula o vacía, asumir que es una URL válida
                 if (petData.image) {
-                    setImagePreview(petData.image); // Si ya tiene una imagen, mostrar la previa
+                    setImagePreview(petData.image); // Aquí puedes verificar si es una URL válida
                 }
             } catch (error) {
                 console.error("Error al obtener los datos de la mascota:", error);
@@ -54,7 +66,6 @@ const UpdatePet = () => {
         navigate(`/pets/${id}`);
     };
 
-    // Validaciones de campos vacíos
     const validateFields = () => {
         const errors = {};
         if (!pet.name) errors.name = "Name is required";
@@ -94,17 +105,8 @@ const UpdatePet = () => {
 
         try {
             const token = localStorage.getItem('token');
-            if (!token) {
-                console.error("No se encontró un token de usuario en localStorage");
-                return;
-            }
-
             const decoded = jwtDecode(token);
             const user_id = decoded.Id;
-            if (!user_id) {
-                console.error("No se encontró el ID de usuario (nameid) en el token decodificado");
-                return;
-            }
 
             const formData = new FormData();
             formData.append('name', pet.name || originalPet.name);
@@ -117,8 +119,6 @@ const UpdatePet = () => {
             }
             formData.append('user_id', user_id);
 
-            console.log("Datos del formulario:", Array.from(formData.entries())); // Verifica el contenido de FormData
-
             const config = {
                 headers: {
                     'Content-Type': 'multipart/form-data',
@@ -128,33 +128,25 @@ const UpdatePet = () => {
 
             const response = await axios.put(`https://vetcare-backend.azurewebsites.net/api/v1/Pet/UpdatePet/${id}`, formData, config);
 
-            console.log("Respuesta del servidor:", response); // Verifica la respuesta del servidor
-
             if (response.status === 200) {
                 alert('Mascota actualizada exitosamente');
                 navigate('/pets');
             } else {
-                console.error("Error en la respuesta del servidor:", response);
                 alert('Hubo un error al actualizar la mascota. Por favor, inténtalo de nuevo.');
             }
 
         } catch (error) {
-            console.error("Error actualizando la mascota:", error.response ? error.response.data : error.message);
             alert('Hubo un error al actualizar la mascota. Por favor, inténtalo de nuevo.');
         }
     };
 
     return (
         <div className="bg-cGreen w-full h-fluid min-h-screen flex justify-end items-end UpdatePets">
-            <form onSubmit={handleSubmit} className="w-full md:w-3/4 lg:w-1/2 h-full flex flex-col justify-center items-center bg-cWhite rounded-tr-custom rounded-br-custom p-4 md:p-8 sm:h-screen overflow-y-auto">
+            <form onSubmit={handleSubmit} className="w-full md:w-3/4 lg:w-1/2 h-full flex flex-col justify-center items-center bg-cWhite rounded-tr-custom rounded-br-custom p-4 md:p-8 sm:h-screen">
                 <div className="flex flex-col items-center justify-center w-full">
                     <h2 className="text-center text-cGreen text-3xl md:text-6xl md:mt-24 font-MontserratBold">
-                        Update account
+                        Update Pet
                     </h2>
-                    <p className="text-cBlack text-base md:text-2xl font-MontserratRegular text-center mt-2 md:mt-4">
-                        Please give us basic information. Thanks!
-                    </p>
-
                     <input
                         type="text"
                         name="name"
@@ -202,7 +194,7 @@ const UpdatePet = () => {
                         onChange={handleInputChange}
                         className="w-full md:w-4/5 p-3 md:p-4 h-12 md:h-14 rounded-2xl border border-cGreen text-cBlack bg-cWhite text-sm md:text-base mt-4 md:mt-6"
                     >
-                        <option value="" disabled selected>Select sex</option>
+                        <option value="" disabled>Select sex</option>
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
                     </select>
@@ -220,18 +212,17 @@ const UpdatePet = () => {
                     {imagePreview && (
                         <img
                             src={imagePreview}
-                            alt="Preview"
-                            className="w-24 h-24 md:w-32 md:h-32 mt-4 object-cover"
+                            alt="Pet preview"
+                            className="w-32 h-32 mt-4 rounded-lg object-cover"
                         />
                     )}
 
                     <button
                         type="submit"
-                        className="flex items-center justify-center w-full md:w-4/5 h-12 md:h-14 rounded-2xl border border-transparent bg-cGreen text-cWhite text-sm md:text-lg mt-6"
+                        className="w-full md:w-4/5 p-3 md:p-4 h-12 md:h-14 rounded-2xl border border-cGreen bg-cGreen text-cWhite text-sm md:text-base mt-4 md:mt-6"
                     >
                         Save
                     </button>
-
                 </div>
             </form>
             <div className='hidden md:flex justify-end items-end w-1/2 h-full'>
