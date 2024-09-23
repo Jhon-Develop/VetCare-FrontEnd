@@ -86,7 +86,7 @@ const Nav = () => {
 
     return (
         <>
-            <nav className="nav flex items-center justify-around p-4 h-28 bg-cWhite shadow-lg">
+            <nav className="nav flex items-center justify-around p-4 h-24 bg-cWhite shadow-lg">
                 
                 {/* Título VetCare */}
                 <div className="font-MontserratBold text-5xl text-cPurple">

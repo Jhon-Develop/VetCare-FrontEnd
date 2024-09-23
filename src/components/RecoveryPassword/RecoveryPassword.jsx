@@ -1,4 +1,4 @@
-import Password from '../../assets/Images/authentication-2-99.png'
+import Password from '../../assets/Images/authentication-2-99.png';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 

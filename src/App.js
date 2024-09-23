@@ -16,6 +16,7 @@ import SidebarUser from './components/SidebarUser/SidebarUser';
 import AdministratorPets from './components/Administrator/AdministratorPets';
 import AdministratorUsers from './components/Administrator/AdministratorUsers';
 import RecoveryPassword from './components/RecoveryPassword/RecoveryPassword';
+import Home from './components/Home/Home';
 
 
 function App() {
@@ -60,6 +61,7 @@ function App() {
             <Route path="/admin-pets" element={<AdministratorPets />} />
             <Route path="/admin-users" element={<AdministratorUsers />} />
             <Route path="/recovery-password" element={<RecoveryPassword />} />
+            <Route path="/home" element={<Home/>} />
           </Routes>
         </div>
       )}
