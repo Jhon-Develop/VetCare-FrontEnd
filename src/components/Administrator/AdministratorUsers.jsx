@@ -15,7 +15,7 @@ const AdministratorUsers = () => {
     const [users, setUsers] = useState([]);
 
     useEffect(() => {
-        axios.get('')
+        axios.get('https://vetcare-backend.azurewebsites.net/api/v1/users?pageNumber=1&pageSize=10')
             .then(response => {
                 setUsers(response.data);
             })

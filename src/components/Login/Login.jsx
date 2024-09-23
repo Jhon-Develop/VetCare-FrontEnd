@@ -18,7 +18,7 @@ const Login = () => {
     // Iniciar sesión
     const handleLogin = async () => {
         try {
-            const response = await fetch('https://vetcarecode.azurewebsites.net/api/Auth/Login', {
+            const response = await fetch('https://vetcare-backend.azurewebsites.net/api/Auth/Login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -29,9 +29,9 @@ const Login = () => {
             const data = await response.json();
 
             if (response.ok) {
-                localStorage.setItem('token', data.token); // Guarda el token en localStorage
+                localStorage.setItem('token', data.token);
                 alert('Login exitoso');
-                window.location.href = '/Home'; // Redirige inmediatamente
+                window.location.href = '/Home';
             } else {
                 alert(data.message || 'Error en el login');
             }
@@ -69,7 +69,7 @@ const Login = () => {
         }
 
         try {
-            const response = await fetch('https://vetcarecode.azurewebsites.net/api/Auth/RequestPasswordReset', {
+            const response = await fetch('https://vetcare-backend.azurewebsites.net/api/Auth/RequestPasswordReset', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

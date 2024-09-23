@@ -8,10 +8,9 @@ import { Routes, Route } from 'react-router-dom';
 import Pets from './components/CrudPets/ViewPets';
 import AddPets from './components/CrudPets/AddPets';
 import Appointment from './components/CrudPets/Appointment';
-
+import UpdatePet from './components/CrudPets/UpdatePet';
 import Register from './components/Register/Register';
 import UpdateAccount from './components/UpdateAccount/UpdateAccount';
-import { Sidebar } from '@phosphor-icons/react';
 import SidebarUser from './components/SidebarUser/SidebarUser';
 import AdministratorPets from './components/Administrator/AdministratorPets';
 import AdministratorUsers from './components/Administrator/AdministratorUsers';
@@ -54,12 +53,14 @@ function App() {
             <Route path="/pets" element={<Pets />} />
             <Route path="/add-pet" element={<AddPets />} />
             <Route path="/pets/:id" element={<ProfilePet />} />
+            <Route path="/pets/:id/update" element={<UpdatePet />} />
             <Route path="/pets/:id/appointment" element={<Appointment />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/updateAccount" element={<UpdateAccount />} />
+            <Route path="/updateAccount/:id" element={<UpdateAccount />} />
             <Route path="/admin-pets" element={<AdministratorPets />} />
             <Route path="/admin-users" element={<AdministratorUsers />} />
             <Route path="/recovery-password" element={<RecoveryPassword />} />
+            <Route path="/sidebar-user" element={<SidebarUser />} />
           </Routes>
         </div>
       )}
