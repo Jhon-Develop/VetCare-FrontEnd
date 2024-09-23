@@ -92,7 +92,7 @@ const AdministratorPets = () => {
                                         <tr key={pet.dateOfBirth}>
                                             <td className="whitespace-nowrap py-4 pl-4 pr-3 text-base font-medium sm:pl-6">{pet.name}</td>
                                             <td className="whitespace-nowrap px-3 py-4 text-base text-gray-500">{pet.breed}</td>
-                                            <td className="whitespace-nowrap px-3 py-4 text-base text-gray-500">{pet.dateOfBirth}</td>
+                                            <td className="whitespace-nowrap px-3 py-4 text-base text-gray-500">{pet.birthDate}</td>
                                             <td className="whitespace-nowrap px-3 py-4 text-base text-gray-500">{pet.sex}</td>
                                             <td className="relative py-4 pl-3 pr-4 flex justify-center items-center sm:pr-6 space-x-4">
                                                 <button onClick={() =>handleEditPet(pet.id)}><img className='w-6 h-6 ' src={Edit} alt="Edit" /></button>

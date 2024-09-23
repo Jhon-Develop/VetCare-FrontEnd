@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Dog from '../../assets/Images/img-login.png';
 import './Login.css';
-import {jwtDecode} from 'jwt-decode'; // Asegúrate de instalar esta librería
+import { jwtDecode } from 'jwt-decode'; // Asegúrate de instalar esta librería
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -42,17 +42,18 @@ const Login = () => {
                 }
             } else {
                 alert(data.message || 'Error en el login');
-    
-            if (!response.ok) {
-                const errorData = await response.json();
-                alert(errorData.message || 'Error en el login');
-                return;
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    alert(errorData.message || 'Error en el login');
+                    return;
+                }
+        
+                const data = await response.json();
+                localStorage.setItem('token', data.token);
+                alert('Login exitoso');
+                window.location.href = '/Home';
             }
-    
-            const data = await response.json();
-            localStorage.setItem('token', data.token);
-            alert('Login exitoso');
-            window.location.href = '/Home';
+            
         } catch (error) {
             console.error('Error al intentar iniciar sesión:', error);
             alert('Ocurrió un error, por favor intenta de nuevo.');
@@ -92,7 +93,6 @@ const Login = () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ email }),
-                mode: 'no-cors',
             });
 
             if (response.ok) {
@@ -116,37 +116,37 @@ const Login = () => {
                 <p className="text-cBlack text-lg md:text-3xl font-MontserratRegular text-center mt-4">
                     Please give us basic information. Thanks!
                 </p>
-                <input 
-                    type="email" 
-                    name="email" 
-                    placeholder='Example@gmail.com' 
+                <input
+                    type="email"
+                    name="email"
+                    placeholder='Example@gmail.com'
                     value={email}
                     onChange={handleInputChange}
-                    className="w-3/5 md:min-w-96 p-4 h-12 mt-8 rounded-lg border-2 border-cGreen text-cBlack text-base md:text-xl font-MontserratRegular" 
+                    className="w-3/5 md:min-w-96 p-4 h-12 mt-8 rounded-lg border-2 border-cGreen text-cBlack text-base md:text-xl font-MontserratRegular"
                 />
-                <input 
-                    type="password" 
-                    name="password" 
-                    placeholder='********' 
+                <input
+                    type="password"
+                    name="password"
+                    placeholder='********'
                     value={password}
                     onChange={handleInputChange}
-                    className="w-3/5 md:min-w-96 p-4 h-12 mt-6 rounded-lg border-2 border-cGreen text-cBlack text-base md:text-xl font-MontserratRegular" 
+                    className="w-3/5 md:min-w-96 p-4 h-12 mt-6 rounded-lg border-2 border-cGreen text-cBlack text-base md:text-xl font-MontserratRegular"
                 />
-                <p 
+                <p
                     onClick={handleForgotPassword}
                     className="text-cGreen text-sm md:text-lg mt-2 cursor-pointer">
                     Forgot Password?
                 </p>
                 <div className='flex flex-col md:flex-row gap-y-4 md:gap-x-8 mt-10 w-72 md:w-auto'>
-                    <button 
-                        type="button" 
+                    <button
+                        type="button"
                         onClick={handleSignUp}
                         className="flex items-center justify-center w-full md:min-w-64 h-12 rounded-full border-2 border-cGreen text-cGreen text-base md:text-xl font-MontserratRegular p-4">
                         Sign up
                     </button>
-                    <button 
+                    <button
                         type='button'
-                        onClick={handleLogin} 
+                        onClick={handleLogin}
                         className="flex items-center justify-center w-full md:min-w-64 h-12 rounded-full border-2 border-cGreen bg-cGreen text-cWhite text-base md:text-xl font-MontserratRegular p-4">
                         Log in
                     </button>
