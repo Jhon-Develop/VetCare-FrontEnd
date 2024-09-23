@@ -99,3 +99,34 @@
         display: flex;
     }
 }
+
+/* Fondo opaco */
+.backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 10;
+}
+
+/* Animación del sidebar */
+.sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 300px;
+    height: 100%;
+    background-color: white;
+    z-index: 20;
+    transition: transform 0.3s ease-in-out;
+}
+
+.slide-in {
+    transform: translateX(0); /* Aparece desde la derecha */
+}
+
+.slide-out {
+    transform: translateX(100%); /* Se oculta hacia la derecha */
+}

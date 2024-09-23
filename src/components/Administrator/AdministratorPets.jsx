@@ -13,7 +13,7 @@ const AdministratorPets = () => {
     const [pets, setPets] = useState([]);
 
     useEffect(() => {
-        axios.get('')
+        axios.get('https://vetcare-backend.azurewebsites.net/api/v1/Pet/allPets')
             .then(response => {
                 setPets(response.data);
             })

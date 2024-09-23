@@ -1,25 +1,31 @@
-import React, { useState } from "react";
+import React from "react";
 import Trash from "../../assets/Images/Trash-cPurple.png";
+import { useNavigate } from "react-router-dom";
 
 const Modal = ({ itemType, itemId, onDeleteSuccess, onCancel }) => {
+    const navigate = useNavigate();
+    const token = localStorage.getItem('token'); // Asegúrate de que el token esté definido
+
     const deleteItem = async () => {
         try {
             let url;
             if (itemType === "Pet") {
-                url = `https://vetcarecode.azurewebsites.net/api/v1/Pet/DeletePet/${itemId}`;
+                url = `https://vetcare-backend.azurewebsites.net/api/v1/Pet/DeletePet/${itemId}`;
             } else if (itemType === "User") {
-                url = `https://vetcarecode.azurewebsites.net/api/v1/users?id=${itemId}`;
+                url = `https://vetcare-backend.azurewebsites.net/api/v1/users?id=${itemId}`;
             }
 
             const response = await fetch(url, {
                 method: "DELETE",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
                 }
             });
 
             if (response.ok) {
                 alert(`${itemType} eliminado exitosamente`);
+                navigate("/pets");
                 onDeleteSuccess();
             } else {
                 alert(`Error eliminando el ${itemType}`);
