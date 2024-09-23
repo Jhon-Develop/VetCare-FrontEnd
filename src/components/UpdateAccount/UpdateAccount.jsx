@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom'; // Importa useParams
 import { jwtDecode } from 'jwt-decode';
 import Cat from '../../assets/Images/img-register.png';
 
 const UpdateAccount = () => {
-    const { id } = useParams(); // Obtén el ID de la URL
+    const [userId, setUserId] = useState(null);
     const [formData, setFormData] = useState({
         name: '',
         lastName: '',
@@ -65,9 +64,25 @@ const UpdateAccount = () => {
         return Object.keys(newErrors).length === 0;
     };
 
+    const getUserIdFromToken = () => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            const decodedToken = jwtDecode(token);
+            return decodedToken.Id;
+        }
+        return null;
+    };
+
     const fetchUserData = async () => {
+        const id = getUserIdFromToken();
+        if (!id) {
+            console.error('User ID is missing');
+            return;
+        }
+        setUserId(id);
+
         try {
-            const response = await axios.get(`https://vetcare-backend.azurewebsites.net/api/v1/users/${id}`); // Usa el ID de la URL
+            const response = await axios.get(`https://vetcare-backend.azurewebsites.net/api/v1/users/${id}`);
             const user = response.data;
             setFormData({
                 name: user.name || '',
@@ -99,7 +114,7 @@ const UpdateAccount = () => {
             if (!updatedData.password) {
                 delete updatedData.password;
             }
-            const response = await axios.put(`https://vetcare-backend.azurewebsites.net/api/v1/users/${id}`, updatedData); // Usa el ID de la URL
+            const response = await axios.put(`https://vetcare-backend.azurewebsites.net/api/v1/users/${userId}`, updatedData);
             alert('Account updated successfully!');
             console.log('Success:', response.data);
         } catch (error) {
@@ -125,55 +140,123 @@ const UpdateAccount = () => {
     useEffect(() => {
         fetchUserData();
         fetchDocumentTypes();
-    }, [id]); // Ejecutar nuevamente si el ID cambia
+    }, []);
 
     return (
         <div>
-            <div className="w-full h-fluid min-h-screen bg-cGreen flex flex-col md:flex-row login relative">
-                <div className="w-full md:w-1/2 flex flex-col justify-center items-center bg-cWhite rounded-tr-custom rounded-br-custom p-8 relative z-10">
-                    <h2 className="text-center text-cGreen text-4xl md:text-7xl font-bold">
-                        Update Account
-                    </h2>
-                    <p className="text-cGray text-lg md:text-2xl text-center mt-4">
-                        Please give us basic information. Thanks!
-                    </p>
-                    <form onSubmit={handleSubmit} className="w-full mt-4">
-                        <div className='flex flex-col items-center space-y-4'>
-                            {Object.entries(formData).map(([key, value]) => (
-                                key !== 'password' ? (
-                                    <input
-                                        key={key}
-                                        type={key === 'birthDate' ? 'date' : 'text'}
-                                        name={key}
-                                        placeholder={key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1')}
-                                        value={value}
-                                        onChange={handleInputChange}
-                                        className="w-3/5 md:min-w-96 p-4 h-14 rounded-2xl border border-cGreen text-cGray bg-cWhite text-base font-MontserratRegular"
-                                    />
-                                ) : (
-                                    <input
-                                        key={key}
-                                        type="password"
-                                        name={key}
-                                        placeholder="Password (optional)"
-                                        value={value}
-                                        onChange={handleInputChange}
-                                        className="w-3/5 md:min-w-96 p-4 h-14 rounded-2xl border border-cGreen text-cGray bg-cWhite text-base font-MontserratRegular"
-                                    />
-                                )
-                            ))}
-                            <button type="submit" className="bg-cGreen text-white w-3/5 md:min-w-96 h-14 rounded-2xl hover:bg-green-600 transition duration-200 font-MontserratSemibold">
-                                Save
-                            </button>
-                        </div>
-                    </form>
-                </div>
-                <div className="hidden md:flex justify-end items-end w-1/2 h-full relative">
+            <div className="w-full h-fit bg-cGreen flex flex-col md:flex-row login relative">
+                <div className="hidden md:flex justify-end items-center w-1/2 h-full relative" data-aos="fade-left">
                     <img
                         src={Cat}
                         alt="Cat"
                         className="cat-image"
                     />
+                </div>
+                <div className="w-full md:w-1/2 h-fit flex flex-col justify-center items-center bg-cWhite rounded-tl-3xl rounded-bl-3xl p-4 md:p-10 relative z-10" data-aos="fade-right">
+                    <h2 className="text-center text-cGreen text-4xl md:text-7xl font-MontserratBold">
+                        Update Account
+                    </h2>
+                    <p className="text-cGray text-lg md:text-2xl font-MontserratRegular text-center mt-4">
+                        Please give us basic information. Thanks!
+                    </p>
+                    <br />
+                    <form onSubmit={handleSubmit} className="w-full">
+                        <div className='flex flex-col items-center space-y-4 custom'>
+                            <input
+                                type="text"
+                                name='name'
+                                placeholder="Name"
+                                value={formData.name}
+                                onChange={handleInputChange}
+                                className="w-3/5 md:min-w-96 p-4 h-14 rounded-2xl border border-cGreen text-cGray bg-cWhite text-base md:text-base font-MontserratRegular"
+                                data-aos="zoom-in"
+                            />
+                            {errors.name && <p className="text-red-500 text-xs md:text-sm">{errors.name}</p>}
+
+                            <input
+                                type="text"
+                                name='lastName'
+                                placeholder="LastName"
+                                value={formData.lastName}
+                                onChange={handleInputChange}
+                                className="w-3/5 md:min-w-96 p-4 h-14 rounded-2xl border border-cGreen text-cGray bg-cWhite text-base md:text-base font-MontserratRegular"
+                                data-aos="zoom-in"
+                            />
+                            {errors.lastName && <p className="text-red-500 text-xs md:text-sm">{errors.lastName}</p>}
+
+                            <select
+                                name="documentTypeId"
+                                value={formData.documentTypeId}
+                                onChange={handleInputChange}
+                                className="w-3/5 md:min-w-96 p-4 h-14 rounded-2xl border border-cGreen text-cGray bg-cWhite text-base md:text-base font-MontserratRegular"
+                                data-aos="zoom-in"
+                            >
+                                <option value="" disabled>Document Type</option>
+                                {documentTypes.map((type) => (
+                                    <option key={type.id} value={type.id}>{type.name}</option>
+                                ))}
+                            </select>
+                            {errors.documentTypeId && <p className="text-red-500 text-xs md:text-sm">{errors.documentTypeId}</p>}
+
+                            <input
+                                type="text"
+                                name='documentNumber'
+                                placeholder="Document Number"
+                                value={formData.documentNumber}
+                                onChange={handleInputChange}
+                                className="w-3/5 md:min-w-96 p-4 h-14 rounded-2xl border border-cGreen text-cGray bg-cWhite text-base md:text-base font-MontserratRegular"
+                                data-aos="zoom-in"
+                            />
+                            {errors.documentNumber && <p className="text-red-500 text-xs md:text-sm">{errors.documentNumber}</p>}
+
+                            <input
+                                type="text"
+                                name='phoneNumber'
+                                placeholder="Phone Number"
+                                value={formData.phoneNumber}
+                                onChange={handleInputChange}
+                                className="w-3/5 md:min-w-96 p-4 h-14 rounded-2xl border border-cGreen text-cGray bg-cWhite text-base md:text-base font-MontserratRegular"
+                                data-aos="zoom-in"
+                            />
+                            {errors.phoneNumber && <p className="text-red-500 text-xs md:text-sm">{errors.phoneNumber}</p>}
+
+                            <input
+                                type="text"
+                                name='email'
+                                placeholder="Email"
+                                value={formData.email}
+                                onChange={handleInputChange}
+                                className="w-3/5 md:min-w-96 p-4 h-14 rounded-2xl border border-cGreen text-cGray bg-cWhite text-base md:text-base font-MontserratRegular"
+                                data-aos="zoom-in"
+                            />
+                            {errors.email && <p className="text-red-500 text-xs md:text-sm">{errors.email}</p>}
+
+                            <input
+                                type="date"
+                                name='birthDate'
+                                value={formData.birthDate}
+                                onChange={handleInputChange}
+                                className="w-3/5 md:min-w-96 p-4 h-14 rounded-2xl border border-cGreen text-cGray bg-cWhite text-base md:text-base font-MontserratRegular"
+                                data-aos="zoom-in"
+                            />
+                            {errors.birthDate && <p className="text-red-500 text-xs md:text-sm">{errors.birthDate}</p>}
+
+                            <input
+                                type="password"
+                                name='password'
+                                placeholder="Password (optional)"
+                                value={formData.password}
+                                onChange={handleInputChange}
+                                className="w-3/5 md:min-w-96 p-4 h-14 rounded-2xl border border-cGreen text-cGray bg-cWhite text-base md:text-base font-MontserratRegular"
+                                data-aos="zoom-in"
+                            />
+                            {errors.password && <p className="text-red-500 text-xs md:text-sm">{errors.password}</p>}
+
+                            <button type="submit" className="bg-cGreen text-white w-3/5 md:min-w-96 h-14 rounded-2xl hover:bg-green-600 transition duration-200" data-aos="zoom-in">
+                                Save
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
