@@ -12,6 +12,7 @@ module.exports = {
                 cPurple: "#8C04BC",
                 cYellow: "#F2E533",
                 cBlack: "#000000",
+                cGray: "#707070",
             },
             fontFamily: {
                 MontserratItalic: ['MontserratItalic'],
@@ -19,11 +20,10 @@ module.exports = {
                 MontserratMedium: ['MontserratMedium'],
                 MontserratSemibold: ['MontserratSemibold'],
                 MontserratBold: ['MontserratBold'],
-                ComfortaaLight: ['ComfortaaLight'],
-                ComfortaaRegular: ['ComfortaaRegular'],
-                ComfortaaMedium: ['ComfortaaMedium'],
-                ComfortaaSemibold: ['ComfortaaSemibold'],
-                ComfortaaBold: ['ComfortaaBold'],
+                MontserrarLight: ['MontserrarLight'],
+            },
+            borderRadius: {
+                'custom': '3rem',
             },
         },
     },

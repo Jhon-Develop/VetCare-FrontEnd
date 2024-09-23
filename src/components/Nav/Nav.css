@@ -1,0 +1,132 @@
+/* Estilos para el menú de navegación */
+.nav {
+    width: 100%;
+    padding: 0 40px;
+}
+
+.navLogo {
+    font-size: 20px;
+}
+
+.navBox {
+    display: flex;
+    gap: 4px;
+}
+
+.navBoxLink {
+    color: #8C04BC; /* cPurple */
+    font-size: 18px;
+    padding: 12px 24px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+    display: block; /* Asegura que el enlace ocupe todo el ancho del elemento */
+    width: 100%; /* Hace que el enlace ocupe el 100% del ancho del contenedor */
+}
+
+.navBoxLink:hover, .navBoxLink.active {
+    background-color: rgba(106, 27, 154, 0.15);
+    width: 100%; /* Hace que el enlace ocupe el 100% del ancho del contenedor */
+}
+
+.navButtonHamburger {
+    background: none;
+    border: none;
+    outline: none;
+}
+
+/* Menú desplegable */
+.navDropdown {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    background-color: #FFFCD1;
+    padding: 20px;
+    
+    width: 100%; /* Asegura que el menú desplegable ocupe todo el ancho */
+    
+    /* Animación para abrir y cerrar el menú */
+    max-height: 0; /* Inicio de la animación (oculto) */
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.4s ease, opacity 0.3s ease;
+}
+
+
+
+/* Mostrar el menú desplegable con animación */
+.openNav {
+    max-height: 500px; 
+    opacity: 1;
+    border: 1px solid #8C04BC; /* cPurple */
+}
+
+.navDropdown li a{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.navDropdown.openNav li{
+    width: 100%;
+}
+
+.closedNav {
+    max-height: 0;
+    opacity: 0;
+}
+
+/* Icono de hamburguesa */
+.icon {
+    font-size: 32px;
+}
+
+/* Mostrar el menú desplegable en dispositivos móviles */
+@media (max-width: 768px) {
+    .navBox {
+        display: none;
+    }
+
+    .navDropdown {
+        display: flex;
+    }
+
+    .navDropdown.openNav {
+        display: flex;
+    }
+
+    .navButtonHamburger {
+        display: flex;
+    }
+}
+
+/* Fondo opaco */
+.backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 10;
+}
+
+/* Animación del sidebar */
+.sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 300px;
+    height: 100%;
+    background-color: white;
+    z-index: 20;
+    transition: transform 0.3s ease-in-out;
+}
+
+.slide-in {
+    transform: translateX(0); /* Aparece desde la derecha */
+}
+
+.slide-out {
+    transform: translateX(100%); /* Se oculta hacia la derecha */
+}

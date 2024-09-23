@@ -36,35 +36,10 @@
 }
 
 @font-face {
-    font-family: "ComfortaaLight";
-    src: url('./assets/Fonts/Comfortaa-Light.ttf');
+    font-family: "MontserratLight";
+    src: url('./assets/Fonts/Montserrat-Light.ttf');
     font-display: swap;
 }
-
-@font-face {
-    font-family: "ComfortaaRegular";
-    src: url('./assets/Fonts/Comfortaa-Regular.ttf');
-    font-display: swap;
-}
-
-@font-face {
-    font-family: "ComfortaaMedium";
-    src: url('./assets/Fonts/Comfortaa-Medium.ttf');
-    font-display: swap;
-}
-
-@font-face {
-    font-family: "ComfortaaSemibold";
-    src: url('./assets/Fonts/Comfortaa-SemiBold.ttf');
-    font-display: swap;
-}
-
-@font-face {
-    font-family: "ComfortaaBold";
-    src: url('./assets/Fonts/Comfortaa-Bold.ttf');
-    font-display: swap;
-}
-
 
 html {
     scroll-behavior: smooth;
