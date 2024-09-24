@@ -32,13 +32,12 @@ const Home = () => {
         <div className="bg-cWhite h-full w-full relative">
             <Header />
             {/* Hero Section */}
-            {/* Hero Section */}
             <div className='flex flex-col lg:flex-row w-full'>
                 <div className="h-screen w-full lg:w-1/2 flex flex-col justify-center space-y-8 px-10 lg:px-20">
                     <h2 className='text-5xl lg:text-9xl font-MontserratBold text-cPurple'>Caring for <br />paws</h2>
                     <p className='text-xl lg:text-3xl font-MontserratRegular text-cGray'>Because your pet is a member <br />of your family!</p>
                     <button className='flex justify-around items-center bg-cGreen w-3/4 lg:w-2/5 text-lg lg:text-xl font-MontserratSemibold text-cWhite p-4 rounded-full'>
-                        Register my pets <img src={Major} alt="Major" className="w-6 h-6" />
+                    View my pets <img src={Major} alt="Major" className="w-6 h-6" />
                     </button>
                 </div>
 
