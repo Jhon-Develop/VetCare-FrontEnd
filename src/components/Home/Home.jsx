@@ -100,7 +100,7 @@ const Home = () => {
 
 
             {/* section about us */}
-            <div className='min-h-screen w-full flex flex-col lg:flex-row justify-center items-center px-6 lg:px-0 space-y-8 lg:space-y-0 lg:space-x-10 pt-10'>
+            <div className='min-h-screen w-full flex flex-col lg:flex-row justify-center items-center px-6 lg:px-0 space-y-8 lg:space-y-0 lg:space-x-10 pt-10' id='aboutUs'>
                 <div className='w-full lg:w-1/2 flex flex-col items-center lg:items-center space-y-8 lg:pl-16'>
                     <h2 className='text-4xl sm:text-6xl lg:text-7xl xl:text-9xl font-MontserratSemibold text-cGreen text-center lg:text-left'>
                         About Us
@@ -127,7 +127,7 @@ const Home = () => {
             </div>
 
             {/* section contact */}
-            <div className='w-full h-full flex flex-col pt-10 justify-center items-center px-4 lg:px-0'>
+            <div className='w-full h-full flex flex-col pt-10 justify-center items-center px-4 lg:px-0' id='contact'>
                 <div className='w-full flex flex-col items-center'>
                     <h2 className='text-4xl lg:text-6xl font-MontserratSemibold text-cPurple'>Contact Details</h2>
                     <p className='text-xl lg:text-3xl font-MontserratRegular text-center text-cGray'>Have any questions or need help with your pet?</p>

@@ -15,6 +15,8 @@ import './AdministratorUser.css';
 const AdministratorUsers = () => {
     const [users, setUsers] = useState([]);
     const [searchTerm, setSearchTerm] = useState(''); // Estado para el término de búsqueda
+    const [showModal, setShowModal] = useState(false);
+    const [userIdToDelete, setUserIdToDelete] = useState(null);
 
     useEffect(() => {
         const url = searchTerm 
@@ -22,12 +24,6 @@ const AdministratorUsers = () => {
             : 'https://vetcare-backend.azurewebsites.net/api/v1/users?pageNumber=1&pageSize=10';
         
         axios.get(url)
-    const [showModal, setShowModal] = useState(false);
-    const [userIdToDelete, setUserIdToDelete] = useState(null);
-
-    useEffect(() => {
-        // Fetch users from the API
-        axios.get('https://vetcare-backend.azurewebsites.net/api/v1/users?pageNumber=1&pageSize=10')
             .then(response => {
                 setUsers(response.data);
             })
@@ -80,7 +76,7 @@ const AdministratorUsers = () => {
     };
 
     return (
-        <div className="bg-cWhite h-fluid w-full relative min-h-screen ">
+        <div className="bg-cWhite h-fluid w-full relative min-h-screen">
             <Header />
 
             {/* Sidebar navigation */}
@@ -142,10 +138,8 @@ const AdministratorUsers = () => {
                                             <td className='relative py-4 pl-3 pr-4 flex justify-center items-center sm:pr-6 space-x-4'>
                                                 <button onClick={() => handleEditUser(user.id)}>
                                                     <img className='w-6 h-6 ' src={Edit} alt="Editar" />
-                                                <button onClick={() => handleEditUser(user.id)}> {/* Passing userId to edit */}
-                                                    <img className='w-6 h-6 ' src={Edit} alt="Edit" />
                                                 </button>
-                                                <button className='bg-cPurple w-8 h-8 flex justify-center items-center rounded-lg' onClick={() => handleDeleteClick(user.id)}> {/* Passing userId to delete */}
+                                                <button className='bg-cPurple w-8 h-8 flex justify-center items-center rounded-lg' onClick={() => handleDeleteClick(user.id)}>
                                                     <img className='w-6 h-6 ' src={Trash} alt="Delete" />
                                                 </button>
                                             </td>
@@ -168,12 +162,6 @@ const AdministratorUsers = () => {
                     </div>
                 </div>
             </main>
-                </main>
-            ) : (
-                <p className="text-cBlack font-MontserratRegular text-5xl mt-10 text-center text-cGray">
-                    You do not have any registered user yet.
-                </p>
-            )}
 
             {/* Modal component */}
             {showModal && (
