@@ -24,14 +24,14 @@ const Modal = ({ itemType, itemId, onDeleteSuccess, onCancel }) => {
             });
 
             if (response.ok) {
-                alert(`${itemType} eliminado exitosamente`);
+                alert(`Error eliminating the ${itemType} successfully removed`);
                 navigate("/pets");
                 onDeleteSuccess();
             } else {
-                alert(`Error eliminando el ${itemType}`);
+                alert(`Error eliminating the  ${itemType}`);
             }
         } catch (error) {
-            alert(`Error en la solicitud de eliminación: ${error}`);
+            alert(`Error in the deletion request: ${error}`);
         }
     };
 
@@ -49,7 +49,7 @@ const Modal = ({ itemType, itemId, onDeleteSuccess, onCancel }) => {
                         <div className="mx-auto flex items-center justify-center h-20 w-20 rounded-full bg-cYellow">
                             <img src={Trash} alt="Trash icon" className="w-14 h-14" />
                         </div>
-                        <div className="mt-3 text-center sm:mt-5">
+                        <div classNaelme="mt-3 text-center sm:mt-5">
                             <h3 className="text-2xl sm:text-3xl font-medium w-full text-cWhite" id="modal-title">
                                 Are you sure you want to delete this {itemType}?
                             </h3>

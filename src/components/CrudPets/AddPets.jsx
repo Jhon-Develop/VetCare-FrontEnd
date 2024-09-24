@@ -100,16 +100,16 @@ const AddPets = () => {
         const response = await axios.post('https://vetcare-backend.azurewebsites.net/api/v1/Pet/CreatePet', formData, config);
 
         if (response.status === 201) {
-            alert('Mascota agregada exitosamente');
+            alert('Pet successfully added');
             navigate('/pets');
         } else {
             console.error("Error en la respuesta del servidor:", response);
-            alert('Hubo un error al agregar la mascota. Por favor, inténtalo de nuevo.');
+            alert('There was an error adding the pet. Please try again.');
         }
 
     } catch (error) {
         console.error("Error agregando la mascota:", error.response ? error.response.data : error.message);
-        alert('Hubo un error al agregar la mascota. Por favor, inténtalo de nuevo.');
+        alert('There was an error adding the pet. Please try again.');
     }
 };
 

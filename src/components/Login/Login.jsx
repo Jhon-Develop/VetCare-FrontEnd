@@ -38,25 +38,25 @@ const Login = () => {
                 } else if (role === "2") {
                     window.location.href = '/Home';
                 } else {
-                    alert('Rol no reconocido');
+                    alert('Role not recognized');
                 }
             } else {
-                alert(data.message || 'Error en el login');
+                alert(data.message || 'Login error');
                 if (!response.ok) {
                     const errorData = await response.json();
-                    alert(errorData.message || 'Error en el login');
+                    alert(errorData.message || 'Login error');
                     return;
                 }
         
                 const data = await response.json();
                 localStorage.setItem('token', data.token);
-                alert('Login exitoso');
+                alert('Successful login');
                 window.location.href = '/Home';
             }
             
         } catch (error) {
             console.error('Error al intentar iniciar sesión:', error);
-            alert('Ocurrió un error, por favor intenta de nuevo.');
+            alert('An error occurred, please try again..');
         }
     };
 
@@ -82,7 +82,7 @@ const Login = () => {
     // Manejo de "Forgot Password"
     const handleForgotPassword = async () => {
         if (!email) {
-            alert('Por favor ingresa tu correo antes de continuar.');
+            alert('Please enter your email address before continuing.');
             return;
         }
 
@@ -96,13 +96,13 @@ const Login = () => {
             });
 
             if (response.ok) {
-                alert('Revisa tu correo por favor.');
+                alert('Please check your email.');
             } else {
-                alert('Error al solicitar el restablecimiento de la contraseña.');
+                alert('Error requesting password reset.');
             }
         } catch (error) {
-            console.error('Error al solicitar el restablecimiento de contraseña:', error);
-            alert('Ocurrió un error, por favor intenta de nuevo.');
+            console.error('Error requesting password reset:', error);
+            alert('An error occurred, please try again.');
         }
     };
 

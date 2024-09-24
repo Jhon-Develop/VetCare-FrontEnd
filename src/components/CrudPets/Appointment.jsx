@@ -114,11 +114,11 @@ const Appointment = () => {
                 alert('Appointment created successfully!'); // Mensaje en inglés
                 navigate(`/pets/${id}`); // Redirigir al perfil de la mascota
             } else {
-                console.log("La cita no fue creada correctamente. Estado:", response.status);
+                console.log("The appointment was not created correctly. Status:", response.status);
             }
         } catch (error) {
-            console.error('Error al crear la cita:', error);
-            console.log("Detalles del error:", error.response);
+            console.error('Error creating appointment:', error);
+            console.log("Details of the error:", error.response);
             if (error.response && error.response.status === 401) {
                 alert('Unauthorized: Please log in again.');
                 localStorage.removeItem('token');

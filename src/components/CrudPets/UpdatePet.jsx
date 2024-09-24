@@ -129,14 +129,14 @@ const UpdatePet = () => {
             const response = await axios.put(`https://vetcare-backend.azurewebsites.net/api/v1/Pet/UpdatePet/${id}`, formData, config);
 
             if (response.status === 200) {
-                alert('Mascota actualizada exitosamente');
+                alert('Pet successfully updated');
                 navigate('/pets');
             } else {
-                alert('Hubo un error al actualizar la mascota. Por favor, inténtalo de nuevo.');
+                alert('There was an error updating the pet. Please try again.');
             }
 
         } catch (error) {
-            alert('Hubo un error al actualizar la mascota. Por favor, inténtalo de nuevo.');
+            alert('There was an error updating the pet. Please try again.');
         }
     };
 
