@@ -104,7 +104,7 @@ const Login = () => {
                     placeholder='Example@gmail.com' 
                     value={email}
                     onChange={handleInputChange}
-                    className="w-3/5 md:min-w-96 p-4 h-12 mt-8 rounded-lg border-2 border-cGreen text-cBlack text-base md:text-xl font-MontserratRegular" 
+                    className="w-3/5 md:min-w-96 p-4 h-14 rounded-2xl border border-cGreen text-cGray bg-cWhite text-base md:text-base font-MontserratRegular mt-6" 
                 />
                 <input 
                     type="password" 
@@ -112,7 +112,7 @@ const Login = () => {
                     placeholder='********' 
                     value={password}
                     onChange={handleInputChange}
-                    className="w-3/5 md:min-w-96 p-4 h-12 mt-6 rounded-lg border-2 border-cGreen text-cBlack text-base md:text-xl font-MontserratRegular" 
+                    className="w-3/5 md:min-w-96 p-4 h-14 rounded-2xl border border-cGreen text-cGray bg-cWhite text-base md:text-base font-MontserratRegular mt-6" 
                 />
                 <p 
                     onClick={handleForgotPassword}

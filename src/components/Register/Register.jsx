@@ -135,7 +135,7 @@ const Register = () => {
                             placeholder="Name"
                             value={formData.name}
                             onChange={handleInputChange}
-                            className="w-3/5 md:min-w-96 p-4 h-14 rounded-2xl border border-cPurple text-cGray bg-cWhite text-base md:text-base font-MontserratRegular"
+                            className="View my pets"
                         />
                         {errors.name && <p className='font-MontserratRegular text-cPurple'>{errors.name}</p>}
 
