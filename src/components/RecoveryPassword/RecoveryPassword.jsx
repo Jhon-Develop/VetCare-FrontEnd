@@ -1,12 +1,15 @@
 import Password from '../../assets/Images/authentication-2-99.png';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Exit from '../../assets/Images/letter-x-white.png';
+import { useNavigate } from 'react-router-dom';
 
 const PasswordRecovery = () => {
     const [showTimer, setShowTimer] = useState(false);
     const [timeLeft, setTimeLeft] = useState(300);
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [email, setEmail] = useState('');
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (showTimer && timeLeft > 0) {
@@ -17,6 +20,11 @@ const PasswordRecovery = () => {
             return () => clearInterval(timer);
         }
     }, [showTimer, timeLeft]);
+
+    const ClickExit = (e) => {
+        e.preventDefault();
+        navigate(-1);
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -103,6 +111,13 @@ const PasswordRecovery = () => {
             </div>
 
             <div className='hidden md:flex justify-center items-end w-1/2 relative'>
+                <div className='bg-cGreen w-14 h-14 lg:w-14 lg:h-14 px-4 py-2 rounded-full shadow-lg hover:bg-[#039978] transition duration-300 text-2xl lg:text-2xl fixed top-5 right-5 flex justify-center items-center text-cWhite'>
+                    <button
+                        onClick={ClickExit}
+                        className="">
+                        <img src={Exit} alt="Add user" />
+                    </button>
+                </div>
                 <img src={Password} alt="password" />
             </div>
         </div>

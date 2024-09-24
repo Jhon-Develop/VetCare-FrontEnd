@@ -44,7 +44,7 @@ const NewPassword = () => {
         setErrorMessage('');
 
         try {
-            const response = await axios.post('https://vetcarecode.azurewebsites.net/api/Auth/ResetPassword', {
+            const response = await axios.post('https://vetcare-backend.azurewebsites.net/api/Auth/ResetPassword', {
                 token: token, 
                 email: email, 
                 newPassword: newPassword 

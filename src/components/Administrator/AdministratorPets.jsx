@@ -6,7 +6,6 @@ import Pet from '../../assets/Images/footprint-white.png';
 import File from '../../assets/Images/folder-white.png';
 import Trash from '../../assets/Images/delete.png';
 import Edit from '../../assets/Images/edit.png';
-import Glass from '../../assets/Images/glass.png';
 import Header from '../../components/Nav/Nav.jsx';
 
 const AdministratorPets = () => {
