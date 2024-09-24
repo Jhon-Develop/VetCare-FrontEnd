@@ -88,7 +88,7 @@ const Home = () => {
                     </div>
 
                     <div className="rounded-lg w-full h-64 bg-cYellow flex items-center relative">
-                        <p className='text-4xl sm:text-6xl font-MontserratSemibold text-cPurple relative text-center z-10 w-1/2'>Pet <br />Store</p>
+                        <p className='text-4xl sm:text-6xl font-MontserratSemibold text-cPurple relative text-center z-10 w-1/2'>Laboratory <br /> Testing</p>
                         <img src={ThridDog} alt="" className='w-1/2 h-full object-cover' />
                     </div>
 
