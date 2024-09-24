@@ -93,7 +93,7 @@ const AdministratorUsers = () => {
                                 <tbody className='divide-y divide-gray-200'>
                                     {users.map((user) => (
                                         <tr key={user.email}>
-                                            <td className='whitespace-nowrap py-4 pl-4 pr-3 text-base font-medium sm:pl-6'>{user.name + ' ' + user.lastName}</td>
+                                            <td className='whitespace-nowrap py-4 pl-4 pr-3 text-base font-medium sm:pl-6 capitalize'>{user.name + ' ' + user.lastName}</td>
                                             <td className='whitespace-nowrap px-3 py-4 text-base text-cGray'>{user.documentNumber}</td>
                                             <td className='whitespace-nowrap px-3 py-4 text-base text-cGray'>{user.email}</td>
                                             <td className='whitespace-nowrap px-3 py-4 text-base text-cGray'>{user.phoneNumber}</td>
