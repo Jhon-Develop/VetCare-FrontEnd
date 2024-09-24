@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Dog from '../../assets/Images/img-login.png';
 import './Login.css';
-import { jwtDecode } from 'jwt-decode'; // Asegúrate de instalar esta librería
+import {jwtDecode} from 'jwt-decode'; // Asegúrate de que esté instalado correctamente
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -16,15 +16,15 @@ const Login = () => {
         }
     };
 
-    // Iniciar sesión
-    const handleLogin = async () => {
+    // Memoriza la función para evitar que se redefina en cada render
+    const handleLogin = useCallback(async () => {
         try {
             const response = await fetch('https://vetcare-backend.azurewebsites.net/api/Auth/Login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ email, password }), // Asegúrate de que estos campos son los correctos
+                body: JSON.stringify({ email, password }),
             });
 
             const data = await response.json();
@@ -42,23 +42,12 @@ const Login = () => {
                 }
             } else {
                 alert(data.message || 'Error en el login');
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    alert(errorData.message || 'Error en el login');
-                    return;
-                }
-        
-                const data = await response.json();
-                localStorage.setItem('token', data.token);
-                alert('Login exitoso');
-                window.location.href = '/Home';
             }
-            
         } catch (error) {
             console.error('Error al intentar iniciar sesión:', error);
             alert('Ocurrió un error, por favor intenta de nuevo.');
         }
-    };
+    }, [email, password]);
 
     // Detectar "Enter" para login
     useEffect(() => {
@@ -72,7 +61,7 @@ const Login = () => {
         return () => {
             window.removeEventListener('keydown', handleKeyDown);
         };
-    }, [email, password]);
+    }, [handleLogin]);
 
     // Redirigir a /register con el botón de Sign Up
     const handleSignUp = () => {
@@ -81,29 +70,7 @@ const Login = () => {
 
     // Manejo de "Forgot Password"
     const handleForgotPassword = async () => {
-        if (!email) {
-            alert('Por favor ingresa tu correo antes de continuar.');
-            return;
-        }
-
-        try {
-            const response = await fetch('https://vetcare-backend.azurewebsites.net/api/Auth/RequestPasswordReset', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email }),
-            });
-
-            if (response.ok) {
-                alert('Revisa tu correo por favor.');
-            } else {
-                alert('Error al solicitar el restablecimiento de la contraseña.');
-            }
-        } catch (error) {
-            console.error('Error al solicitar el restablecimiento de contraseña:', error);
-            alert('Ocurrió un error, por favor intenta de nuevo.');
-        }
+        window.location.href = '/recovery-password';
     };
 
     return (
@@ -122,7 +89,7 @@ const Login = () => {
                     placeholder='Example@gmail.com'
                     value={email}
                     onChange={handleInputChange}
-                    className="w-3/5 md:min-w-96 p-4 h-12 mt-8 rounded-lg border-2 border-cGreen text-cBlack text-base md:text-xl font-MontserratRegular"
+                    className="w-3/5 md:min-w-96 p-4 h-14 rounded-2xl border border-cGreen text-cGray bg-cWhite text-base md:text-base font-MontserratRegular mt-6" 
                 />
                 <input
                     type="password"
@@ -130,7 +97,8 @@ const Login = () => {
                     placeholder='********'
                     value={password}
                     onChange={handleInputChange}
-                    className="w-3/5 md:min-w-96 p-4 h-12 mt-6 rounded-lg border-2 border-cGreen text-cBlack text-base md:text-xl font-MontserratRegular"
+                    className="w-3/5 md:min-w-96 p-4 h-14 rounded-2xl border border-cGreen text-cGray bg-cWhite text-base md:text-base font-MontserratRegular mt-6" 
+                    
                 />
                 <p
                     onClick={handleForgotPassword}
@@ -159,6 +127,6 @@ const Login = () => {
             </div>
         </div>
     );
-}
+};
 
 export default Login;

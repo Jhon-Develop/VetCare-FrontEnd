@@ -83,8 +83,8 @@ const PetList = () => {
                 </div>
                 <button
                     onClick={goToAddPet}
-                    className="fixed bottom-4 right-4 bg-cGreen text-white p-4 md:p-4 rounded-full shadow-lg hover:bg w-12 h-12 md:w-14 md:h-14 flex justify-center items-center z-10">
-                    <img src={Plus} alt="Add user" className="w-6 h-6 md:w-8 md:h-8" />
+                    className="fixed bottom-4 right-4 bg-cGreen text-white rounded-full shadow-lg hover:bg-[#039978] w-12 h-12 md:w-14 md:h-14 flex justify-center items-center transition duration-300 z-10">
+                    <img src={Plus} alt="Add user" className="w-6 h-6 md:w-8 md:h-8 flex " />
                 </button>
             </main>
         </div>

@@ -14,7 +14,7 @@ const Modal = ({ itemType, itemId, onDeleteSuccess, onCancel }) => {
             } else if (itemType === "User") {
                 url = `https://vetcare-backend.azurewebsites.net/api/v1/users?id=${itemId}`;
             }
-
+    
             const response = await fetch(url, {
                 method: "DELETE",
                 headers: {
@@ -22,18 +22,25 @@ const Modal = ({ itemType, itemId, onDeleteSuccess, onCancel }) => {
                     "Authorization": `Bearer ${token}`
                 }
             });
-
+    
             if (response.ok) {
-                alert(`${itemType} eliminado exitosamente`);
-                navigate("/pets");
-                onDeleteSuccess();
+                alert(`${itemType} successfully deleted`);
+    
+                // Redirect only if it's a pet
+                if (itemType === "Pet") {
+                    navigate("/pets");
+                } else {
+                    // Do not redirect if it's a user, just trigger the success callback
+                    onDeleteSuccess();
+                }
             } else {
-                alert(`Error eliminando el ${itemType}`);
+                alert(`Error deleting the ${itemType}`);
             }
         } catch (error) {
-            alert(`Error en la solicitud de eliminación: ${error}`);
+            alert(`Error in the deletion request: ${error}`);
         }
     };
+    
 
     return (
         <div className="fixed inset-0 z-10 overflow-y-auto">

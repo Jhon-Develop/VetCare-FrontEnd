@@ -11,7 +11,7 @@ const AddPets = () => {
 
     const ClickExit = (e) => {
         e.preventDefault();
-        navigate('/pets');
+        navigate(-1);
     };
 
     const [pet, setPet] = useState({
