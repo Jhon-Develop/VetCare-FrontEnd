@@ -13,16 +13,25 @@ import './AdministratorUser.css';
 
 const AdministratorUsers = () => {
     const [users, setUsers] = useState([]);
+    const [searchTerm, setSearchTerm] = useState(''); // Estado para el término de búsqueda
 
     useEffect(() => {
-        axios.get('https://vetcare-backend.azurewebsites.net/api/v1/users?pageNumber=1&pageSize=10')
+        const url = searchTerm 
+            ? `https://vetcare-backend.azurewebsites.net/api/v1/users/FindByInitial/${searchTerm}`
+            : 'https://vetcare-backend.azurewebsites.net/api/v1/users?pageNumber=1&pageSize=10';
+        
+        axios.get(url)
             .then(response => {
                 setUsers(response.data);
             })
             .catch(error => {
                 console.error('There was an error fetching the users!', error);
             });
-    }, []);
+    }, [searchTerm]); // El efecto se dispara cada vez que searchTerm cambia
+
+    const handleSearchChange = (e) => {
+        setSearchTerm(e.target.value); // Actualiza el término de búsqueda
+    };
 
     const handleSignUp = () => {
         window.location.href = '/register';
@@ -35,6 +44,7 @@ const AdministratorUsers = () => {
     const handleAdminPets = () => {
         window.location.href = '/admin-pets';
     };
+
     const handleAdminAppointments = () => {
         window.location.href = '/admin-appointment';
     };
@@ -46,6 +56,7 @@ const AdministratorUsers = () => {
     const handleEditUser = (userId) => {
         window.location.href = `/updateAccount/${userId}`;
     };
+
     return (
         <div className="bg-cWhite h-fluid w-full relative min-h-screen ">
             <Header />
@@ -66,46 +77,48 @@ const AdministratorUsers = () => {
                 </button>
             </div>
 
-            {users.length > 0 ? (
-                <main className="p-4">
-                    <div className="p-8 w-5/6 mx-auto">
-                        <div className="flex justify-between items-center mb-6">
-                            <h1 className="text-3xl font-MontserratSemibold text-cPurple">Users</h1>
-                            <div className="w-full max-w-md px-4">
-                                <div className="relative">
-                                    <input
-                                        type="text"
-                                        placeholder="Find user..."
-                                        className="w-full py-3 pl-4 pr-10 text-cGray bg-cWhite border rounded-full shadow-md focus:outline-none focus:ring-2 focus:ring-cPurple"
-                                    />
-                                    <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                                        <img src={Glass} alt="Search" className="h-5 w-5 text-gray-400" />
-                                    </div>
+            <main className="p-4">
+                <div className="p-8 w-5/6 mx-auto">
+                    <div className="flex justify-between items-center mb-6">
+                        <h1 className="text-3xl font-MontserratSemibold text-cPurple">Users</h1>
+                        <div className="w-full max-w-md px-4">
+                            <div className="relative">
+                                <input
+                                    type="text"
+                                    placeholder="Find user..."
+                                    className="w-full py-3 pl-4 pr-10 text-cGray bg-cWhite border rounded-full shadow-md focus:outline-none focus:ring-2 focus:ring-cPurple"
+                                    value={searchTerm} // El valor del input es el término de búsqueda
+                                    onChange={handleSearchChange} // Actualiza el término de búsqueda al escribir
+                                />
+                                <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                                    <img src={Glass} alt="Search" className="h-5 w-5 text-gray-400" />
                                 </div>
                             </div>
                         </div>
-                        <div className='shadow-lg ring-1 ring-cBlack/5 sm:rounded-lg overflow-x-auto'>
-                            <table className='min-w-full divide-y divide-gray-300'>
-                                <thead>
-                                    <tr>
-                                        <th className='py-3.5 pl-4 pr-3 text-left text-lg font-semibold text-cPurple sm:pl-6'>Name</th>
-                                        <th className='px-3 py-3.5 text-left text-lg font-semibold text-cPurple'>Document Number</th>
-                                        <th className='px-3 py-3.5 text-left text-lg font-semibold text-cPurple'>Email</th>
-                                        <th className='px-3 py-3.5 text-left text-lg font-semibold text-cPurple'>Phone</th>
-                                        <th className='relative py-3.5 pl-3 pr-4 sm:pr-6'>
-                                            <span className='sr-only'>Edit</span>
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody className='divide-y divide-gray-200'>
-                                    {users.map((user) => (
+                    </div>
+                    <div className='shadow-lg ring-1 ring-cBlack/5 sm:rounded-lg overflow-x-auto'>
+                        <table className='min-w-full divide-y divide-gray-300'>
+                            <thead>
+                                <tr>
+                                    <th className='py-3.5 pl-4 pr-3 text-left text-lg font-semibold text-cPurple sm:pl-6'>Name</th>
+                                    <th className='px-3 py-3.5 text-left text-lg font-semibold text-cPurple'>Document Number</th>
+                                    <th className='px-3 py-3.5 text-left text-lg font-semibold text-cPurple'>Email</th>
+                                    <th className='px-3 py-3.5 text-left text-lg font-semibold text-cPurple'>Phone</th>
+                                    <th className='relative py-3.5 pl-3 pr-4 sm:pr-6'>
+                                        <span className='sr-only'>Edit</span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody className='divide-y divide-gray-200'>
+                                {users.length > 0 ? (
+                                    users.map((user) => (
                                         <tr key={user.email}>
                                             <td className='whitespace-nowrap py-4 pl-4 pr-3 text-base font-medium sm:pl-6 capitalize'>{user.name + ' ' + user.lastName}</td>
                                             <td className='whitespace-nowrap px-3 py-4 text-base text-cGray'>{user.documentNumber}</td>
                                             <td className='whitespace-nowrap px-3 py-4 text-base text-cGray'>{user.email}</td>
                                             <td className='whitespace-nowrap px-3 py-4 text-base text-cGray'>{user.phoneNumber}</td>
                                             <td className='relative py-4 pl-3 pr-4 flex justify-center items-center sm:pr-6 space-x-4'>
-                                                <button onClick={() => handleEditUser(user.id)}> {/* Aquí se pasa el userId */}
+                                                <button onClick={() => handleEditUser(user.id)}>
                                                     <img className='w-6 h-6 ' src={Edit} alt="Editar" />
                                                 </button>
                                                 <button className='bg-cPurple w-8 h-8 flex justify-center items-center rounded-lg'>
@@ -113,24 +126,24 @@ const AdministratorUsers = () => {
                                                 </button>
                                             </td>
                                         </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-                        <div className='relative'>
-                            <button
-                                onClick={handleSignUp}
-                                className="fixed bottom-4 right-4 bg-cGreen text-white px-4 py-2 rounded-full shadow-lg hover:bg w-14 h-14 flex justify-center items-center">
-                                <img src={plus} alt="Add user" />
-                            </button>
-                        </div>
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td colSpan="5" className="text-center py-4 text-cGray">No users found for the entered initial.</td>
+                                    </tr>
+                                )}
+                            </tbody>
+                        </table>
                     </div>
-                </main>
-            ) : (
-                <p className="text-cBlack font-MontserratRegular text-5xl mt-10 text-center text-cGray">
-                    You do not have any registered user yet.
-                </p>
-            )}
+                    <div className='relative'>
+                        <button
+                            onClick={handleSignUp}
+                            className="fixed bottom-4 right-4 bg-cGreen text-white px-4 py-2 rounded-full shadow-lg hover:bg w-14 h-14 flex justify-center items-center">
+                            <img src={plus} alt="Add user" />
+                        </button>
+                    </div>
+                </div>
+            </main>
         </div>
     );
 };

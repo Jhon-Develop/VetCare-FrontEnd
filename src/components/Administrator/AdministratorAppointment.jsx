@@ -64,18 +64,6 @@ const AdministratorAppointment = () => {
                     <div className="p-8 w-5/6 mx-auto">
                         <div className="flex justify-between items-center mb-6">
                             <h1 className="text-3xl font-MontserratSemibold text-cPurple">Appointments</h1>
-                            <div className="w-full max-w-md px-4">
-                                <div className="relative">
-                                    <input
-                                        type="text"
-                                        placeholder="Find pet..."
-                                        className="w-full py-3 pl-4 pr-10 text-gray-700 bg-cWhite border-none rounded-full shadow-md focus:outline-none focus:ring-2 focus:ring-cPurple"
-                                    />
-                                    <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                                        <img src={Glass} alt="Search" className="h-5 w-5 text-gray-400" />
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                         <div className="shadow-lg ring-1 ring-cBlack/5 sm:rounded-lg">
                             <table className="min-w-full divide-y divide-gray-300">
