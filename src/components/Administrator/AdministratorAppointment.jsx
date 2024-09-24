@@ -27,6 +27,13 @@ const AdministratorAppointment = () => {
     const handleAdminPets = () => {
         window.location.href = '/admin-pets';
     };
+    const handleAdminAppointments = () => {
+        window.location.href = '/admin-appointment';
+    };
+
+    const handleHome = () => {
+        window.location.href = '/home';
+    };
 
 
 
@@ -37,7 +44,7 @@ const AdministratorAppointment = () => {
 
             {/* Sidebar */}
             <div className="absolute fixed left-4 top-1/2 -translate-y-1/2 bg-cPurple w-16 rounded-full flex flex-col items-center py-6 space-y-8 drop-shadow-lg">
-                <button className='hover:bg-[#A03ACF] rounded-full w-10 h-10 flex justify-center items-center'>
+                <button onClick={handleHome} className='hover:bg-[#A03ACF] rounded-full w-10 h-10 flex justify-center items-center'>
                     <img src={Home} alt="Home" className="text-white w-6 h-6" />
                 </button>
                 <button onClick={handleAdminUser} className='hover:bg-[#A03ACF] rounded-full w-10 h-10 flex justify-center items-center'>
@@ -46,7 +53,7 @@ const AdministratorAppointment = () => {
                 <button onClick={handleAdminPets} className='hover:bg-[#A03ACF] rounded-full w-10 h-10 flex justify-center items-center'>
                     <img src={Pet} alt="Pet" className="text-white w-6 h-6" />
                 </button>
-                <button className='hover:bg-[#A03ACF] rounded-full w-10 h-10 flex justify-center items-center'>
+                <button onClick={handleAdminAppointments} className='hover:bg-[#A03ACF] rounded-full w-10 h-10 flex justify-center items-center'>
                     <img src={File} alt="File" className="text-white w-6 h-6" />
                 </button>
             </div>

@@ -33,7 +33,14 @@ const AdministratorUsers = () => {
     };
 
     const handleAdminPets = () => {
-        window.location.href = `/admin-pets/`;
+        window.location.href = '/admin-pets';
+    };
+    const handleAdminAppointments = () => {
+        window.location.href = '/admin-appointment';
+    };
+
+    const handleHome = () => {
+        window.location.href = '/home';
     };
 
     const handleEditUser = (userId) => {
@@ -45,7 +52,7 @@ const AdministratorUsers = () => {
 
             {/* Sidebar */}
             <div className="absolute fixed left-4 top-1/2 -translate-y-1/2 bg-cPurple w-16 rounded-full flex flex-col items-center py-6 space-y-8 drop-shadow-lg">
-                <button className='hover:bg-[#A03ACF] rounded-full w-10 h-10 flex justify-center items-center'>
+                <button onClick={handleHome} className='hover:bg-[#A03ACF] rounded-full w-10 h-10 flex justify-center items-center'>
                     <img src={Home} alt="Home" className="text-white w-6 h-6" />
                 </button>
                 <button onClick={handleAdminUser} className='hover:bg-[#A03ACF] rounded-full w-10 h-10 flex justify-center items-center'>
@@ -54,7 +61,7 @@ const AdministratorUsers = () => {
                 <button onClick={handleAdminPets} className='hover:bg-[#A03ACF] rounded-full w-10 h-10 flex justify-center items-center'>
                     <img src={Pet} alt="Pet" className="text-white w-6 h-6" />
                 </button>
-                <button className='hover:bg-[#A03ACF] rounded-full w-10 h-10 flex justify-center items-center'>
+                <button onClick={handleAdminAppointments} className='hover:bg-[#A03ACF] rounded-full w-10 h-10 flex justify-center items-center'>
                     <img src={File} alt="File" className="text-white w-6 h-6" />
                 </button>
             </div>
@@ -93,7 +100,7 @@ const AdministratorUsers = () => {
                                 <tbody className='divide-y divide-gray-200'>
                                     {users.map((user) => (
                                         <tr key={user.email}>
-                                            <td className='whitespace-nowrap py-4 pl-4 pr-3 text-base font-medium sm:pl-6'>{user.name + ' ' + user.lastName}</td>
+                                            <td className='whitespace-nowrap py-4 pl-4 pr-3 text-base font-medium sm:pl-6 capitalize'>{user.name + ' ' + user.lastName}</td>
                                             <td className='whitespace-nowrap px-3 py-4 text-base text-cGray'>{user.documentNumber}</td>
                                             <td className='whitespace-nowrap px-3 py-4 text-base text-cGray'>{user.email}</td>
                                             <td className='whitespace-nowrap px-3 py-4 text-base text-cGray'>{user.phoneNumber}</td>
