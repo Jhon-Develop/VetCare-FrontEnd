@@ -16,8 +16,6 @@ import AdministratorPets from './components/Administrator/AdministratorPets';
 import AdministratorUsers from './components/Administrator/AdministratorUsers';
 import RecoveryPassword from './components/RecoveryPassword/RecoveryPassword';
 import NewPassword from './components/NewPassword/NewPassword';
-import AdministratorAppointment from './components/Administrator/AdministratorAppointment';
-
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -64,7 +62,7 @@ function App() {
             <Route path="/recovery-password" element={<RecoveryPassword />} />
             <Route path="/new-password" element={<NewPassword />} />
             <Route path="/sidebar-user" element={<SidebarUser />} />
-            <Route path="/admin-appointment" element={<AdministratorAppointment />} />
+
           </Routes>
         </div>
       )}
