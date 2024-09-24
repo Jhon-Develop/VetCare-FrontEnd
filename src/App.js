@@ -16,7 +16,7 @@ import AdministratorPets from './components/Administrator/AdministratorPets';
 import AdministratorUsers from './components/Administrator/AdministratorUsers';
 import RecoveryPassword from './components/RecoveryPassword/RecoveryPassword';
 import NewPassword from './components/NewPassword/NewPassword';
-
+import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -51,18 +51,83 @@ function App() {
         <div>
           <Routes>
             <Route path="/" element={<Login />} />
-            <Route path="/pets" element={<Pets />} />
-            <Route path="/add-pet" element={<AddPets />} />
-            <Route path="/pets/:id" element={<ProfilePet />} />
-            <Route path="/pets/:id/update" element={<UpdatePet />} />
-            <Route path="/pets/:id/appointment" element={<Appointment />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/updateAccount/:id" element={<UpdateAccount />} />
-            <Route path="/admin-pets" element={<AdministratorPets />} />
-            <Route path="/admin-users" element={<AdministratorUsers />} />
             <Route path="/recovery-password" element={<RecoveryPassword />} />
             <Route path="/new-password" element={<NewPassword />} />
-            <Route path="/sidebar-user" element={<SidebarUser />} />
+
+            {/* Protected Routes */}
+            <Route
+              path="/pets"
+              element={
+                <ProtectedRoute>
+                  <Pets />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/add-pet"
+              element={
+                <ProtectedRoute>
+                  <AddPets />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/pets/:id"
+              element={
+                <ProtectedRoute>
+                  <ProfilePet />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/pets/:id/update"
+              element={
+                <ProtectedRoute>
+                  <UpdatePet />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/pets/:id/appointment"
+              element={
+                <ProtectedRoute>
+                  <Appointment />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/updateAccount/:id"
+              element={
+                <ProtectedRoute>
+                  <UpdateAccount />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin-pets"
+              element={
+                <ProtectedRoute>
+                  <AdministratorPets />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin-users"
+              element={
+                <ProtectedRoute>
+                  <AdministratorUsers />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/sidebar-user"
+              element={
+                <ProtectedRoute>
+                  <SidebarUser />
+                </ProtectedRoute>
+              }
+            />
           </Routes>
         </div>
       )}

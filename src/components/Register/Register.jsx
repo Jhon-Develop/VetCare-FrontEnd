@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Cat from '../../assets/Images/img-register.png';
+import { Link } from 'react-router-dom';
 import './Register.css';
 
 const Register = () => {
@@ -199,8 +200,9 @@ const Register = () => {
                         <button
                             type="submit"
                             className="w-3/5 md:min-w-96 p-4 h-14 rounded-2xl border-0 text-cWhite bg-cPurple text-base md:text-base font-MontserratRegular cursor-pointer hover:bg-cDarkPurple transition duration-200 ease-in-out">
-                            Register
+                            Save
                         </button>
+                        <p className='text-cGray text-xl'>Do you have an account? <Link to="/login" className='text-cPurple'>Log in</Link></p>
                     </div>
                 </form>
             </div>
