@@ -22,7 +22,7 @@ const PasswordRecovery = () => {
         e.preventDefault();
         if (!isSubmitted) {
             try {
-                const response = await axios.post('https://vetcarecode.azurewebsites.net/api/Auth/RequestPasswordReset', {
+                const response = await axios.post('https://vetcare-backend.azurewebsites.net/api/Auth/RequestPasswordReset', {
                     email: email,
                 });
                 console.log('Correo enviado:', response.data);

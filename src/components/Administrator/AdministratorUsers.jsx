@@ -15,7 +15,7 @@ const AdministratorUsers = () => {
     const [users, setUsers] = useState([]);
 
     useEffect(() => {
-        axios.get('')
+        axios.get('https://vetcare-backend.azurewebsites.net/api/v1/users?pageNumber=1&pageSize=10')
             .then(response => {
                 setUsers(response.data);
             })
@@ -33,40 +33,29 @@ const AdministratorUsers = () => {
     };
 
     const handleAdminPets = () => {
-        window.location.href = '/admin-pets';
+        window.location.href = `/admin-pets/`;
     };
 
-    const handleEditUser = () => {
-        window.location.href = '/updateAccount';
+    const handleEditUser = (userId) => {
+        window.location.href = `/updateAccount/${userId}`;
     };
-
     return (
         <div className="bg-cWhite h-fluid w-full relative min-h-screen ">
             <Header />
 
             {/* Sidebar */}
             <div className="absolute fixed left-4 top-1/2 -translate-y-1/2 bg-cPurple w-16 rounded-full flex flex-col items-center py-6 space-y-8 drop-shadow-lg">
-                <button
-                    className='hover:bg-[#A03ACF] rounded-full w-10 h-10 flex justify-center items-center'>
-                    <img src={Home} alt="Home"
-                        className="text-white w-6 h-6" />
+                <button className='hover:bg-[#A03ACF] rounded-full w-10 h-10 flex justify-center items-center'>
+                    <img src={Home} alt="Home" className="text-white w-6 h-6" />
                 </button>
-                <button
-                    onClick={handleAdminUser}
-                    className='hover:bg-[#A03ACF] rounded-full w-10 h-10 flex justify-center items-center'>
-                    <img src={User} alt="User"
-                        className="text-white w-6 h-6" />
+                <button onClick={handleAdminUser} className='hover:bg-[#A03ACF] rounded-full w-10 h-10 flex justify-center items-center'>
+                    <img src={User} alt="User" className="text-white w-6 h-6" />
                 </button>
-                <button
-                    onClick={handleAdminPets}
-                    className='hover:bg-[#A03ACF] rounded-full w-10 h-10 flex justify-center items-center'>
-                    <img src={Pet} alt="Pet"
-                        className="text-white w-6 h-6" />
+                <button onClick={handleAdminPets} className='hover:bg-[#A03ACF] rounded-full w-10 h-10 flex justify-center items-center'>
+                    <img src={Pet} alt="Pet" className="text-white w-6 h-6" />
                 </button>
-                <button
-                    className='hover:bg-[#A03ACF] rounded-full w-10 h-10 flex justify-center items-center'>
-                    <img src={File} alt="File"
-                        className="text-white w-6 h-6" />
+                <button className='hover:bg-[#A03ACF] rounded-full w-10 h-10 flex justify-center items-center'>
+                    <img src={File} alt="File" className="text-white w-6 h-6" />
                 </button>
             </div>
 
@@ -80,7 +69,7 @@ const AdministratorUsers = () => {
                                     <input
                                         type="text"
                                         placeholder="Find user..."
-                                        className="w-full py-3 pl-4 pr-10 text-cGray bg-cWhite border-none rounded-full shadow-md focus:outline-none focus:ring-2 focus:ring-cPurple"
+                                        className="w-full py-3 pl-4 pr-10 text-cGray bg-cWhite border rounded-full shadow-md focus:outline-none focus:ring-2 focus:ring-cPurple"
                                     />
                                     <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                                         <img src={Glass} alt="Search" className="h-5 w-5 text-gray-400" />
@@ -109,7 +98,7 @@ const AdministratorUsers = () => {
                                             <td className='whitespace-nowrap px-3 py-4 text-base text-cGray'>{user.email}</td>
                                             <td className='whitespace-nowrap px-3 py-4 text-base text-cGray'>{user.phoneNumber}</td>
                                             <td className='relative py-4 pl-3 pr-4 flex justify-center items-center sm:pr-6 space-x-4'>
-                                                <button onClick={handleEditUser}>
+                                                <button onClick={() => handleEditUser(user.id)}> {/* Aquí se pasa el userId */}
                                                     <img className='w-6 h-6 ' src={Edit} alt="Editar" />
                                                 </button>
                                                 <button className='bg-cPurple w-8 h-8 flex justify-center items-center rounded-lg'>
@@ -134,7 +123,6 @@ const AdministratorUsers = () => {
                 <p className="text-cBlack font-MontserratRegular text-5xl mt-10 text-center text-cGray">
                     You do not have any registered user yet.
                 </p>
-
             )}
         </div>
     );

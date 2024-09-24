@@ -97,7 +97,7 @@ const AddPets = () => {
             }
         };
 
-        const response = await axios.post('https://vetcarecode.azurewebsites.net/api/v1/Pet/CreatePet', formData, config);
+        const response = await axios.post('https://vetcare-backend.azurewebsites.net/api/v1/Pet/CreatePet', formData, config);
 
         if (response.status === 201) {
             alert('Mascota agregada exitosamente');
@@ -115,8 +115,8 @@ const AddPets = () => {
 
 
     return (
-        <div className="bg-cPurple w-full h-screen flex justify-end items-end addPets">
-            <form onSubmit={handleSubmit} className="w-full md:w-3/4 lg:w-1/2 h-full flex flex-col justify-center items-center bg-cWhite rounded-tr-custom rounded-br-custom p-4 md:p-8 sm:h-screen overflow-y-auto">
+        <div className="bg-cPurple w-full h-fluid min-h-screen flex justify-end items-end addPets">
+            <form onSubmit={handleSubmit} className="w-full md:w-3/4 lg:w-1/2 h-fluid min-h-screen flex flex-col justify-center items-center bg-cWhite rounded-tr-custom rounded-br-custom p-4 md:p-8 sm:h-screen overflow-y-auto">
                 <div className="flex flex-col items-center justify-center w-full">
                     <h2 className="text-center text-cPurple text-3xl md:text-6xl md:mt-24 font-MontserratBold">
                         We Love <br /> Your Pets!
@@ -211,7 +211,7 @@ const AddPets = () => {
                         <img src={Exit} alt="Add user" />
                     </button>
                 </div>
-                <img src={Dog} alt="Dog" className="max-w-xs md:max-w-xl h-auto" />
+                <img src={Dog} alt="Dog" className="max-w-xs md:max-w-lg h-auto" />
             </div>
         </div>
     );

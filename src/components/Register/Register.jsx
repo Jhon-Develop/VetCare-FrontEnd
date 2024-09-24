@@ -1,132 +1,114 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import Cat from '../../assets/Images/img-register.png';
 import './Register.css';
 
 const Register = () => {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         name: '',
-        lastname: '',
-        documentType: '',
+        lastName: '',
+        documentTypeId: '',
         documentNumber: '',
         phoneNumber: '',
         email: '',
-        dateBirthday: '',
+        birthDate: '',
         password: '',
+        roleId: 2,
     });
 
     const [errors, setErrors] = useState({});
+    const [documentTypes, setDocumentTypes] = useState([]);
 
-    // Función para validar el correo electrónico
-    const validateEmail = (email) => {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email);
+    useEffect(() => {
+        axios.get('https://vetcare-backend.azurewebsites.net/api/v1/DocumentTypes')
+            .then(response => setDocumentTypes(response.data))
+            .catch(error => console.error('Error fetching document types:', error));
+    }, []);
+
+    const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+    const validatePassword = (password) => /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,}$/.test(password);
+
+    const validateAge = (birthDate) => {
+        const age = new Date().getFullYear() - new Date(birthDate).getFullYear();
+        return age >= 18;
     };
 
-    // Función para validar la contraseña segura
-    const validatePassword = (password) => {
-        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-        return passwordRegex.test(password);
-    };
-
-    // Función para validar la edad (mayor de 18 años)
-    const validateAge = (dateBirthday) => {
-        const birthDate = new Date(dateBirthday);
-        const today = new Date();
-        const age = today.getFullYear() - birthDate.getFullYear();
-        const month = today.getMonth() - birthDate.getMonth();
-        if (month < 0 || (month === 0 && today.getDate() < birthDate.getDate())) {
-            return age - 1;
-        }
-        return age;
-    };
-
-    // Función para validar el formulario completo
     const validateForm = () => {
         const newErrors = {};
 
-        // Validar nombre y apellido
         if (!formData.name) newErrors.name = 'Name is required';
-        if (!formData.lastname) newErrors.lastname = 'Last name is required';
-
-        // Validar tipo de documento
-        if (!formData.documentType) newErrors.documentType = 'Document type is required';
-
-        // Validar número de documento
+        if (!formData.lastName) newErrors.lastName = 'Last name is required';
+        if (!formData.documentTypeId) newErrors.documentTypeId = 'Document type is required';
         if (!formData.documentNumber) newErrors.documentNumber = 'Document number is required';
-
-        // Validar número de teléfono
         if (!formData.phoneNumber) newErrors.phoneNumber = 'Phone number is required';
-
-        // Validar email
-        if (!formData.email || !validateEmail(formData.email)) {
-            newErrors.email = 'Valid email is required';
+        if (!formData.email || !validateEmail(formData.email)) newErrors.email = 'Valid email is required';
+        if (!formData.birthDate) {
+            newErrors.birthDate = 'Date of birth is required';
+        } else if (!validateAge(formData.birthDate)) {
+            newErrors.birthDate = 'You must be at least 18 years old';
         }
-
-        // Validar fecha de nacimiento (mayor de 18 años)
-        const age = validateAge(formData.dateBirthday);
-        if (!formData.dateBirthday) {
-            newErrors.dateBirthday = 'Date of birth is required';
-        } else if (age < 18) {
-            newErrors.dateBirthday = 'You must be at least 18 years old';
-        }
-
-        // Validar contraseña segura
         if (!formData.password || !validatePassword(formData.password)) {
-            newErrors.password = 'Password must be at least 8 characters, include a number, an uppercase letter, a lowercase letter, and a special character';
+            newErrors.password = 'Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one number, and one special character';
         }
 
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
 
-    // Función para enviar los datos del formulario a la API
     const submitFormData = async () => {
         try {
-            const response = await fetch('https://your-api-endpoint.com/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),
+            const response = await axios.post('https://vetcare-backend.azurewebsites.net/api/Auth/Register', {
+                ...formData,
+                documentTypeId: parseInt(formData.documentTypeId),
             });
 
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
+            if (response.status === 200) {
+                alert('Form submitted successfully!');
+                navigate('/');
             }
-
-            const result = await response.json();
-            alert('Form submitted successfully!');
-            console.log('Success:', result);
         } catch (error) {
-            console.error('Error:', error);
-            alert('Failed to submit form');
+            console.error('Error:', error.response?.data || error);
+            if (error.response?.data?.errors) {
+                console.error('Validation Errors:', error.response.data.errors);
+                alert('Validation Errors: ' + JSON.stringify(error.response.data.errors));
+            } else {
+                alert('Failed to submit form');
+            }
         }
     };
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        console.log(formData); // Imprime el contenido del formulario
         if (validateForm()) {
-            submitFormData(); // Llama a la función para enviar los datos
-        } else {
-            console.error('Form has errors, please fix them.');
+            submitFormData();
         }
     };
-
     const handleInputChange = (event) => {
         const { name, value } = event.target;
-        setFormData({ ...formData, [name]: value });
+        console.log(`Changed ${name} to ${value}`);
+        
+        setFormData((prevData) => ({
+            ...prevData,
+            [name]: value, // Mantenerlo como cadena para cualquier campo
+        }));
     };
 
+
+
+
     return (
-        <div className="w-full h-fit bg-cPurple flex flex-col md:flex-row register relative">
-            <div className="w-full md:w-1/2 h-fit flex flex-col justify-center items-center bg-cWhite rounded-tr-3xl rounded-br-3xl p-4 md:p-10 relative z-10">
+        <div className="w-full h-fluid min-h-screen bg-cPurple flex flex-col md:flex-row register relative">
+            <div className="w-full md:w-1/2 h-fluid min-h-screen flex flex-col justify-center items-center bg-cWhite rounded-tr-3xl rounded-br-3xl p-4 md:p-10 relative z-10">
                 <h2 className="text-center text-cPurple text-4xl md:text-7xl font-MontserratBold">
                     Create Account
                 </h2>
                 <p className="text-cGray text-lg md:text-2xl font-MontserratRegular text-center mt-4">
                     Please give us basic information. Thanks!
                 </p>
-                <br />
                 <form onSubmit={handleSubmit} className="w-full">
                     <div className='flex flex-col items-center space-y-4 custom'>
                         <input
@@ -141,27 +123,29 @@ const Register = () => {
 
                         <input
                             type="text"
-                            name='lastname'
-                            placeholder="Last Name"
-                            value={formData.lastname}
+                            name='lastName'
+                            placeholder="LastName"
+                            value={formData.lastName}
                             onChange={handleInputChange}
                             className="w-3/5 md:min-w-96 p-4 h-14 rounded-2xl border border-cPurple text-cGray bg-cWhite text-base md:text-base font-MontserratRegular"
                         />
-                        {errors.lastname && <p className='font-MontserratRegular text-cPurple text-center'>{errors.lastname}</p>}
+                        {errors.lastName && <p className='font-MontserratRegular text-cPurple'>{errors.lastName}</p>}
 
                         <select
-                            name="documentType"
-                            value={formData.documentType}
+                            name="documentTypeId"
+                            value={formData.documentTypeId}
                             onChange={handleInputChange}
-                            className="w-3/5 md:min-w-96 p-4 h-14 rounded-2xl border border-cPurple text-cGray bg-cWhite text-base md:text-base font-MontserratRegular">
+                            className="w-3/5 md:min-w-96 p-4 h-14 rounded-2xl border border-cPurple text-cGray bg-cWhite text-base md:text-base font-MontserratRegular"
+                        >
                             <option value="" disabled>Document Type</option>
-                            {/* {documentTypes.map((type) => (
+                            {documentTypes.length > 0 && documentTypes.map((type) => (
                                 <option key={type.id} value={type.id}>
                                     {type.name}
                                 </option>
-                            ))} */}
+                            ))}
                         </select>
-                        {errors.documentType && <p className='font-MontserratRegular text-cPurple text-center'>{errors.documentType}</p>}
+
+                        {errors.documentTypeId && <p className='font-MontserratRegular text-cPurple'>{errors.documentTypeId}</p>}
 
                         <input
                             type="text"
@@ -171,7 +155,7 @@ const Register = () => {
                             onChange={handleInputChange}
                             className="w-3/5 md:min-w-96 p-4 h-14 rounded-2xl border border-cPurple text-cGray bg-cWhite text-base md:text-base font-MontserratRegular"
                         />
-                        {errors.documentNumber && <p className='font-MontserratRegular text-cPurple text-center'>{errors.documentNumber}</p>}
+                        {errors.documentNumber && <p className='font-MontserratRegular text-cPurple'>{errors.documentNumber}</p>}
 
                         <input
                             type="text"
@@ -181,7 +165,7 @@ const Register = () => {
                             onChange={handleInputChange}
                             className="w-3/5 md:min-w-96 p-4 h-14 rounded-2xl border border-cPurple text-cGray bg-cWhite text-base md:text-base font-MontserratRegular"
                         />
-                        {errors.phoneNumber && <p className='font-MontserratRegular text-cPurple text-center'>{errors.phoneNumber}</p>}
+                        {errors.phoneNumber && <p className='font-MontserratRegular text-cPurple'>{errors.phoneNumber}</p>}
 
                         <input
                             type="text"
@@ -191,17 +175,16 @@ const Register = () => {
                             onChange={handleInputChange}
                             className="w-3/5 md:min-w-96 p-4 h-14 rounded-2xl border border-cPurple text-cGray bg-cWhite text-base md:text-base font-MontserratRegular"
                         />
-                        {errors.email && <p className='font-MontserratRegular text-cPurple text-center'>{errors.email}</p>}
+                        {errors.email && <p className='font-MontserratRegular text-cPurple'>{errors.email}</p>}
 
                         <input
                             type="date"
-                            name='dateBirthday'
-                            value={formData.dateBirthday}
+                            name='birthDate'
+                            value={formData.birthDate}
                             onChange={handleInputChange}
-                            max={new Date().toISOString().split("T")[0]}
                             className="w-3/5 md:min-w-96 p-4 h-14 rounded-2xl border border-cPurple text-cGray bg-cWhite text-base md:text-base font-MontserratRegular"
                         />
-                        {errors.dateBirthday && <p className='font-MontserratRegular text-cPurple text-center'>{errors.dateBirthday}</p>}
+                        {errors.birthDate && <p className='font-MontserratRegular text-cPurple'>{errors.birthDate}</p>}
 
                         <input
                             type="password"
@@ -211,32 +194,19 @@ const Register = () => {
                             onChange={handleInputChange}
                             className="w-3/5 md:min-w-96 p-4 h-14 rounded-2xl border border-cPurple text-cGray bg-cWhite text-base md:text-base font-MontserratRegular"
                         />
-                        {errors.password && <p className='font-MontserratRegular text-cPurple text-center'>{errors.password}</p>}
+                        {errors.password && <p className='font-MontserratRegular text-cPurple'>{errors.password}</p>}
 
                         <button
                             type="submit"
-                            className="flex items-center justify-center w-3/5 md:min-w-96 h-14 rounded-2xl border border-cPurple bg-cPurple text-cWhite text-base md:text-xl font-MontserratRegular p-4"
-                        >
-                            Save
+                            className="w-3/5 md:min-w-96 p-4 h-14 rounded-2xl border-0 text-cWhite bg-cPurple text-base md:text-base font-MontserratRegular cursor-pointer hover:bg-cDarkPurple transition duration-200 ease-in-out">
+                            Register
                         </button>
                     </div>
                 </form>
-
-                <p className="text-center text-cGray font-MontserratRegular text-base md:text-xl mt-7">
-                    Do you have an account?{' '}
-                    <a href="/" className="text-cPurple hover:underline font-MontserratRegular">
-                        Login
-                    </a>
-                </p>
             </div>
             <div className="hidden md:flex justify-end items-end w-1/2 h-full relative">
-                <img
-                    src={Cat}
-                    alt="Cat"
-                    className="cat-image"
-                />
+                <img src={Cat} alt="Cat" className="cat-image" />
             </div>
-
         </div>
     );
 };
