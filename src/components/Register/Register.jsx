@@ -203,6 +203,12 @@ const Register = () => {
                         </button>
                     </div>
                 </form>
+                <p className="text-center text-cGray font-MontserratRegular text-base md:text-xl mt-7">
+                    Do you have an account?{' '}
+                    <a href="/" className="text-cPurple hover:underline font-MontserratRegular">
+                        Login
+                    </a>
+                </p>
             </div>
             <div className="hidden md:flex justify-end items-end w-1/2 h-full relative">
                 <img src={Cat} alt="Cat" className="cat-image" />
