@@ -10,13 +10,14 @@ import ThirdCat from '../../assets/Images/cat-services-3.png';
 import Whiskas from '../../assets/Images/Whiskas.png';
 import Purina from '../../assets/Images/Purina.png';
 import HeroDog from '../../assets/Images/HeroDog.png';
+import DogHero from '../../assets/Images/DogHero.png';
 
 import Watch from '../../assets/Images/watch.png';
 import Phone from '../../assets/Images/phone-contact.png';
 import Email from '../../assets/Images/email.png';
 import Address from '../../assets/Images/location.png';
 
-import BgHome from '../../assets/Images/bg-Index.png';
+
 import AnimalFoundation from '../../assets/Images/Animal-Foundation.png';
 import AboutUs from '../../assets/Images/dog-and-cat.png';
 
@@ -25,25 +26,26 @@ import Facebook from '../../assets/Images/facebook.png';
 import Gmail from '../../assets/Images/gmail.png';
 
 import Header from '../../components/Nav/Nav.jsx';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
-
+    const navigate = useNavigate();
     return (
         <div className="bg-cWhite h-full w-full relative">
             <Header />
             {/* Hero Section */}
-            <div className='flex flex-col lg:flex-row w-full'>
+            <div className='flex flex-col lg:flex-row w-full' id='hero'>
                 <div className="h-screen w-full lg:w-1/2 flex flex-col justify-center space-y-8 px-10 lg:px-20">
                     <h2 className='text-5xl lg:text-9xl font-MontserratBold text-cPurple'>Caring for <br />paws</h2>
                     <p className='text-xl lg:text-3xl font-MontserratRegular text-cGray'>Because your pet is a member <br />of your family!</p>
-                    <button className='flex justify-around items-center bg-cGreen w-3/4 lg:w-2/5 text-lg lg:text-xl font-MontserratSemibold text-cWhite p-4 rounded-full'>
+                    <button className='flex justify-around items-center bg-cGreen w-3/4 lg:w-2/5 text-lg lg:text-xl font-MontserratSemibold text-cWhite p-4 rounded-full' onClick={() => navigate('/pets')}>
                     View my pets <img src={Major} alt="Major" className="w-6 h-6" />
                     </button>
                 </div>
 
-                <div className='hidden lg:block w-1/2 '>
+                <div className='hidden lg:block w-1/2 bg-cPurple rounded-bl-full home'>
                     <div className='w-full h-full flex justify-center items-center'>
-                        <img src={HeroDog} alt="Hero Dog" className='w-full h-auto object-cover drop-shadow-2xl' />
+                        <img src={DogHero} alt="Hero Dog" className='w-[600px] h-[800px] object-cover drop-shadow-2xl' />
                     </div>
                 </div>
 
@@ -55,7 +57,7 @@ const Home = () => {
 
 
             {/* services section */}
-            <div className='flex flex-col space-y-8 justify-center items-center'>
+            <div className='flex flex-col space-y-8 justify-center items-center' id='services'>
                 <div className=" text-center">
                     <h2 className='text-3xl lg:text-7xl font-MontserratBold text-cPurple'>Our services</h2>
                     <p className='text-xl lg:text-2xl font-MontserratRegular text-cGray'>At VetCare, a public veterinary clinic, we provide essential care to keep your pets healthy and happy.</p>
@@ -163,7 +165,7 @@ const Home = () => {
                             </div>
                             <div>
                                 <h3 className='text-xl lg:text-2xl font-MontserratSemibold text-cPurple'>Phone</h3>
-                                <p className='text-lg lg:text-xl font-MontserratRegular text-cGray'>(575) 555-5555</p>
+                                <p className='text-lg lg:text-xl font-MontserratRegular text-cGray'>(+57) 310-4505360</p>
                             </div>
                         </div>
                         <div className='w-full flex items-center space-x-4 pt-10'>
@@ -195,16 +197,11 @@ const Home = () => {
                     <p className='text-lg font-MontserratRegular text-cWhite mt-1 sm:mt-0'>© 2024 VC, Non-profit veterinarian</p>
                 </div>
                 <div className='flex space-x-4 mt-4 sm:mt-0'>
-                    <a href=""><img src={Facebook} alt="Facebook" className='w-8 h-8 sm:w-10 sm:h-10' /></a>
-                    <a href=""><img src={Instagram} alt="Instagram" className='w-8 h-8 sm:w-10 sm:h-10' /></a>
-                    <a href=""><img src={Gmail} alt="Gmail" className='w-8 h-8 sm:w-10 sm:h-10' /></a>
+                    <a href="https://www.facebook.com/profile.php?id=61566270509014" target='_blank' rel="noreferrer"><img src={Facebook} alt="Facebook" className='w-8 h-8 sm:w-10 sm:h-10' /></a>
+                    <a href="https://www.instagram.com/vetcare42/" target='_blank' rel="noreferrer"><img src={Instagram} alt="Instagram" className='w-8 h-8 sm:w-10 sm:h-10' /></a>
+                    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=vetcarepets2024@gmail.co&su=I%20%want%20%to%20%know%20%more%20%about%20%VetCare&body=Write%20%to%20us%20here" target='_blank' rel="noreferrer"><img src={Gmail} alt="Gmail" className='w-8 h-8 sm:w-10 sm:h-10' /></a>
                 </div>
             </div>
-
-
-
-
-
         </div>
     )
 }

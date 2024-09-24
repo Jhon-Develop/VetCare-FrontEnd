@@ -118,7 +118,7 @@ const Register = () => {
                             placeholder="Name"
                             value={formData.name}
                             onChange={handleInputChange}
-                            className="View my pets"
+                            className="w-3/5 md:min-w-96 p-4 h-14 rounded-2xl border border-cPurple text-cGray bg-cWhite text-base md:text-base font-MontserratRegular mt-6"
                         />
                         {errors.name && <p className='font-MontserratRegular text-cPurple'>{errors.name}</p>}
 
@@ -202,7 +202,7 @@ const Register = () => {
                             className="w-3/5 md:min-w-96 p-4 h-14 rounded-2xl border-0 text-cWhite bg-cPurple text-base md:text-base font-MontserratRegular cursor-pointer hover:bg-cDarkPurple transition duration-200 ease-in-out">
                             Save
                         </button>
-                        <p className='text-cGray text-xl'>Do you have an account? <Link to="/login" className='text-cPurple'>Log in</Link></p>
+                        <p className='text-cGray text-xl'>Do you have an account? <Link to="/" className='text-cPurple'>Log in</Link></p>
                     </div>
                 </form>
             </div>

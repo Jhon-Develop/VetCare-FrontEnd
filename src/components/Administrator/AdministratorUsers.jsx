@@ -9,12 +9,16 @@ import Edit from '../../assets/Images/edit.png';
 import plus from '../../assets/Images/plus-white.png';
 import Glass from '../../assets/Images/glass.png';
 import Header from '../../components/Nav/Nav.jsx';
+import Modal from '../Modal/Modal.jsx'; // Import the Modal component
 import './AdministratorUser.css';
 
 const AdministratorUsers = () => {
     const [users, setUsers] = useState([]);
+    const [showModal, setShowModal] = useState(false);
+    const [userIdToDelete, setUserIdToDelete] = useState(null);
 
     useEffect(() => {
+        // Fetch users from the API
         axios.get('https://vetcare-backend.azurewebsites.net/api/v1/users?pageNumber=1&pageSize=10')
             .then(response => {
                 setUsers(response.data);
@@ -39,11 +43,27 @@ const AdministratorUsers = () => {
     const handleEditUser = (userId) => {
         window.location.href = `/updateAccount/${userId}`;
     };
+
+    const handleDeleteClick = (userId) => {
+        setUserIdToDelete(userId);
+        setShowModal(true); // Show the modal when delete button is clicked
+    };
+
+    const handleConfirmDelete = () => {
+        // Logic to delete the user
+        console.log(`User with ID ${userIdToDelete} deleted`);
+        setShowModal(false);
+    };
+
+    const handleCancelDelete = () => {
+        setShowModal(false);
+    };
+
     return (
         <div className="bg-cWhite h-fluid w-full relative min-h-screen ">
             <Header />
 
-            {/* Sidebar */}
+            {/* Sidebar navigation */}
             <div className="absolute fixed left-4 top-1/2 -translate-y-1/2 bg-cPurple w-16 rounded-full flex flex-col items-center py-6 space-y-8 drop-shadow-lg">
                 <button className='hover:bg-[#A03ACF] rounded-full w-10 h-10 flex justify-center items-center'>
                     <img src={Home} alt="Home" className="text-white w-6 h-6" />
@@ -93,16 +113,16 @@ const AdministratorUsers = () => {
                                 <tbody className='divide-y divide-gray-200'>
                                     {users.map((user) => (
                                         <tr key={user.email}>
-                                            <td className='whitespace-nowrap py-4 pl-4 pr-3 text-base font-medium sm:pl-6'>{user.name + ' ' + user.lastName}</td>
+                                            <td className='whitespace-nowrap py-4 pl-4 pr-3 text-base font-medium sm:pl-6 capitalize'>{user.name + ' ' + user.lastName}</td>
                                             <td className='whitespace-nowrap px-3 py-4 text-base text-cGray'>{user.documentNumber}</td>
                                             <td className='whitespace-nowrap px-3 py-4 text-base text-cGray'>{user.email}</td>
                                             <td className='whitespace-nowrap px-3 py-4 text-base text-cGray'>{user.phoneNumber}</td>
                                             <td className='relative py-4 pl-3 pr-4 flex justify-center items-center sm:pr-6 space-x-4'>
-                                                <button onClick={() => handleEditUser(user.id)}> {/* Aquí se pasa el userId */}
-                                                    <img className='w-6 h-6 ' src={Edit} alt="Editar" />
+                                                <button onClick={() => handleEditUser(user.id)}> {/* Passing userId to edit */}
+                                                    <img className='w-6 h-6 ' src={Edit} alt="Edit" />
                                                 </button>
-                                                <button className='bg-cPurple w-8 h-8 flex justify-center items-center rounded-lg'>
-                                                    <img className='w-6 h-6 ' src={Trash} alt="Eliminar" />
+                                                <button className='bg-cPurple w-8 h-8 flex justify-center items-center rounded-lg' onClick={() => handleDeleteClick(user.id)}> {/* Passing userId to delete */}
+                                                    <img className='w-6 h-6 ' src={Trash} alt="Delete" />
                                                 </button>
                                             </td>
                                         </tr>
@@ -123,6 +143,16 @@ const AdministratorUsers = () => {
                 <p className="text-cBlack font-MontserratRegular text-5xl mt-10 text-center text-cGray">
                     You do not have any registered user yet.
                 </p>
+            )}
+
+            {/* Modal component */}
+            {showModal && (
+                <Modal
+                    itemType="User"
+                    itemId={userIdToDelete}
+                    onDeleteSuccess={handleConfirmDelete}
+                    onCancel={handleCancelDelete}
+                />
             )}
         </div>
     );

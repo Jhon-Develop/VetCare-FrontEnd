@@ -17,6 +17,7 @@ import AdministratorUsers from './components/Administrator/AdministratorUsers';
 import RecoveryPassword from './components/RecoveryPassword/RecoveryPassword';
 import NewPassword from './components/NewPassword/NewPassword';
 import ProtectedRoute from './components/ProtectedRoute';
+import Home from './components/Home/Home';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -125,6 +126,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <SidebarUser />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/Home"
+              element={
+                <ProtectedRoute>
+                  <Home />
                 </ProtectedRoute>
               }
             />
