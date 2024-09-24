@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import Password from '../../assets/Images/authentication-2-99.png';
+import { useNavigate } from 'react-router-dom';
 
 const NewPassword = () => {
     const token = localStorage.getItem('token');
-
+    const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmNewPassword, setConfirmNewPassword] = useState('');
@@ -55,7 +56,7 @@ const NewPassword = () => {
                 alert('Password successfully updated');
                 // Redirigir al login o realizar cualquier otra acción necesaria
             } else {
-                setErrorMessage('Error updating password');
+                navigate('/')
             }
         } catch (error) {
             console.error('Error connecting to API', error);

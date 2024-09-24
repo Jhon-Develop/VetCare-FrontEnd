@@ -70,7 +70,7 @@ const SidebarUser = ({ userId, onClose }) => {
                     </div>
                     <div className="flex flex-col text-cWhite">
                         <h2 className='capitalize'>{user ? (`${user.name} ${user.lastName}`) : 'Cargando...'}</h2>
-                        <p>Propietario(a)</p>
+                        <p>Owner</p>
                     </div>
                 </div>
 

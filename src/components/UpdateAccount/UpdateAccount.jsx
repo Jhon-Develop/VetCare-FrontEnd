@@ -251,7 +251,7 @@ const UpdateAccount = () => {
                         />
                         {errors.password && <p className="text-red-500 text-xs md:text-sm">{errors.password}</p>}
 
-                        <button type="submit" className="bg-cGreen text-cWhite w-3/5 md:min-w-96 h-14 rounded-2xl text-lg font-MontserratRegular" data-aos="zoom-in">
+                        <button type="submit" className="bg-cGreen text-cWhite w-3/5 md:min-w-96 h-14 rounded-2xl text-lg font-MontserratRegular">
                             Save
                         </button>
                     </div>
