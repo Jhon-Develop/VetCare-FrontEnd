@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^13.5.0",
     "aos": "^2.3.4",
     "axios": "^1.7.7",
+    "date-fns": "^4.1.0",
     "jwt-decode": "^4.0.0",
     "postcss": "^8.4.38",
     "postcss-nesting": "^12.1.5",
