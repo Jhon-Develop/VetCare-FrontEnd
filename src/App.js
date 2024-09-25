@@ -19,7 +19,7 @@ import RecoveryPassword from './components/RecoveryPassword/RecoveryPassword';
 import NewPassword from './components/NewPassword/NewPassword';
 import ProtectedRoute from './components/ProtectedRoute';
 import Home from './components/Home/Home';
-import AdministratorAppointment from './components/Administrator/AdministratorAppointment';
+
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
