@@ -9,12 +9,12 @@ import Edit from '../../assets/Images/edit.png';
 import plus from '../../assets/Images/plus-white.png';
 import Glass from '../../assets/Images/glass.png';
 import Header from '../../components/Nav/Nav.jsx';
-import Modal from '../Modal/Modal.jsx'; // Import the Modal component
+import Modal from '../Modal/Modal.jsx';
 import './AdministratorUser.css';
 
 const AdministratorUsers = () => {
     const [users, setUsers] = useState([]);
-    const [searchTerm, setSearchTerm] = useState(''); // Estado para el término de búsqueda
+    const [searchTerm, setSearchTerm] = useState('');
     const [showModal, setShowModal] = useState(false);
     const [userIdToDelete, setUserIdToDelete] = useState(null);
 
@@ -30,10 +30,10 @@ const AdministratorUsers = () => {
             .catch(error => {
                 console.error('There was an error fetching the users!', error);
             });
-    }, [searchTerm]); // El efecto se dispara cada vez que searchTerm cambia
+    }, [searchTerm]);
 
     const handleSearchChange = (e) => {
-        setSearchTerm(e.target.value); // Actualiza el término de búsqueda
+        setSearchTerm(e.target.value); 
     };
 
     const handleSignUp = () => {
@@ -66,7 +66,6 @@ const AdministratorUsers = () => {
     };
 
     const handleConfirmDelete = () => {
-        // Logic to delete the user
         console.log(`User with ID ${userIdToDelete} deleted`);
         setShowModal(false);
     };
@@ -105,8 +104,8 @@ const AdministratorUsers = () => {
                                     type="text"
                                     placeholder="Find user..."
                                     className="w-full py-3 pl-4 pr-10 text-cGray bg-cWhite border rounded-full shadow-md focus:outline-none focus:ring-2 focus:ring-cPurple"
-                                    value={searchTerm} // El valor del input es el término de búsqueda
-                                    onChange={handleSearchChange} // Actualiza el término de búsqueda al escribir
+                                    value={searchTerm}
+                                    onChange={handleSearchChange}
                                 />
                                 <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                                     <img src={Glass} alt="Search" className="h-5 w-5 text-gray-400" />

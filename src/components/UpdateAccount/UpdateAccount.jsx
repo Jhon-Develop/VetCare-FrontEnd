@@ -8,8 +8,20 @@ import Exit from '../../assets/Images/letter-x-white.png';
 
 const UpdateAccount = () => {
     const navigate = useNavigate();
-    const { id } = useParams(); // get the id of the user from the url
+    const { id } = useParams(); 
     const [userId, setUserId] = useState(null);
+    
+    const [initialData, setInitialData] = useState({
+        name: '',
+        lastName: '',
+        documentTypeId: '',
+        documentNumber: '',
+        phoneNumber: '',
+        email: '',
+        birthDate: '',
+        password: ''
+    });
+
     const [formData, setFormData] = useState({
         name: '',
         lastName: '',
@@ -18,11 +30,12 @@ const UpdateAccount = () => {
         phoneNumber: '',
         email: '',
         birthDate: '',
-        password: '',
+        password: ''
     });
 
     const [documentTypes, setDocumentTypes] = useState([]);
     const [errors, setErrors] = useState({});
+
 
     const validateEmail = (email) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -69,24 +82,27 @@ const UpdateAccount = () => {
         return Object.keys(newErrors).length === 0;
     };
 
-    const getUserIdFromToken = useCallback(() => {
-        const token = localStorage.getItem('token');
-        if (token) {
-            const decodedToken = jwtDecode(token);
-            return decodedToken.Id;
-        }
-        return null;
-    }, []);
-
     const fetchUserData = useCallback(async () => {
         if (!id) {
             console.error('User ID is missing');
             return;
         }
-    
+
         try {
             const response = await axios.get(`https://vetcare-backend.azurewebsites.net/api/v1/users/${id}`);
             const user = response.data;
+            
+            setInitialData({
+                name: user.name || '',
+                lastName: user.lastName || '',
+                documentTypeId: user.documentTypeId || '',
+                documentNumber: user.documentNumber || '',
+                phoneNumber: user.phoneNumber || '',
+                email: user.email || '',
+                birthDate: user.birthDate || '',
+                password: '' 
+            });
+            
             setFormData({
                 name: user.name || '',
                 lastName: user.lastName || '',
@@ -95,7 +111,7 @@ const UpdateAccount = () => {
                 phoneNumber: user.phoneNumber || '',
                 email: user.email || '',
                 birthDate: user.birthDate || '',
-                password: '',
+                password: ''
             });
         } catch (error) {
             console.error('Error fetching user data:', error);
@@ -113,26 +129,61 @@ const UpdateAccount = () => {
 
     const updateUserData = async () => {
         try {
-            const updatedData = { ...formData };
-            if (!updatedData.password) {
-                delete updatedData.password; // Remove password if not updated
+            const roleId = parseInt(localStorage.getItem('roleId'), 10);
+    
+            const updatedData = {
+                newUser: {
+                    name: formData.name || initialData.name,
+                    lastName: formData.lastName || initialData.lastName,
+                    birthDate: formData.birthDate || initialData.birthDate,
+                    email: formData.email || initialData.email,
+                    phoneNumber: formData.phoneNumber || initialData.phoneNumber,
+                    documentTypeId: formData.documentTypeId || initialData.documentTypeId,
+                    documentNumber: formData.documentNumber || initialData.documentNumber, 
+                    roleId: roleId
+                }
+            };
+    
+            if (!formData.password || formData.password.trim() === '') {
+                delete updatedData.newUser.password;
             }
-            const response = await axios.put(`https://vetcare-backend.azurewebsites.net/api/v1/users/${id}`, updatedData); // Use id from URL
+    
+            const response = await axios.put(
+                `https://vetcare-backend.azurewebsites.net/api/v1/users/${id}`,
+                updatedData
+            );
+    
             alert('Account updated successfully!');
             console.log('Success:', response.data);
         } catch (error) {
             console.error('Error updating user data:', error);
-            alert('Failed to update account');
+    
+            if (error.response) {
+                console.error('Response data:', error.response.data);
+                console.error('Response status:', error.response.status);
+                console.error('Response headers:', error.response.headers);
+    
+                if (error.response.data.errors) {
+                    console.error('Validation errors:', error.response.data.errors);
+                    alert(`Failed to update account: ${Object.values(error.response.data.errors).join(', ')}`);
+                } else {
+                    alert('Failed to update account. Please check the input and try again.');
+                }
+            } else {
+                alert('An unexpected error occurred. Please try again.');
+            }
         }
     };
     
 
     const handleSubmit = (event) => {
         event.preventDefault();
+
         if (validateForm()) {
             updateUserData();
         } else {
             console.error('Form has errors, please fix them.');
+            console.log("Validation Errors:", errors);
         }
     };
 

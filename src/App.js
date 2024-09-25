@@ -14,6 +14,7 @@ import UpdateAccount from './components/UpdateAccount/UpdateAccount';
 import SidebarUser from './components/SidebarUser/SidebarUser';
 import AdministratorPets from './components/Administrator/AdministratorPets';
 import AdministratorUsers from './components/Administrator/AdministratorUsers';
+import AdministratorAppointment from './components/Administrator/AdministratorAppointment';
 import RecoveryPassword from './components/RecoveryPassword/RecoveryPassword';
 import NewPassword from './components/NewPassword/NewPassword';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -134,6 +135,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <Home />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin-appointment"
+              element={
+                <ProtectedRoute>
+                  <AdministratorAppointment />
                 </ProtectedRoute>
               }
             />

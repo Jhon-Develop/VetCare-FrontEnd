@@ -72,7 +72,7 @@ const Nav = () => {
 
     const handleProfile = () => {
         setIsSidebarOpen(true);
-        setIsDropdownOpen(false); // Cierra el menú desplegable
+        setIsDropdownOpen(false);
     };
 
     const closeSidebar = () => {

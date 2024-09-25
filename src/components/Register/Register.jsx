@@ -83,7 +83,7 @@ const Register = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        console.log(formData); // Imprime el contenido del formulario
+        console.log(formData); 
         if (validateForm()) {
             submitFormData();
         }
@@ -94,7 +94,7 @@ const Register = () => {
         
         setFormData((prevData) => ({
             ...prevData,
-            [name]: value, // Mantenerlo como cadena para cualquier campo
+            [name]: value, 
         }));
     };
 

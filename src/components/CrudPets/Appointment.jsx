@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { jwtDecode } from 'jwt-decode'; // Ajustar el import
+import { jwtDecode } from 'jwt-decode'; // Adjust import
 import axios from 'axios';
 import Cat from '../../assets/Images/appointment-cat.png';
 import Exit from '../../assets/Images/letter-x-white.png';
@@ -76,17 +76,17 @@ const Appointment = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        console.log("Validando campos...");
+        console.log("Validating fields...");
         if (!validateFields()) {
-            console.log("Validación fallida", errors);
+            console.log("Validation failed", errors);
             return;
         }
 
         const token = localStorage.getItem('token');
-        console.log("Token obtenido:", token);
+        console.log("Token retrieved:", token);
 
         const userId = validateToken(token);
-        console.log("ID de usuario:", userId);
+        console.log("User ID:", userId);
 
         if (!userId) return; // Stop if the token is invalid or expired
 
@@ -98,7 +98,7 @@ const Appointment = () => {
             userId,
         };
 
-        console.log("Enviando los siguientes datos para crear la cita:", newAppointment);
+        console.log("Sending the following data to create the appointment:", newAppointment);
 
         try {
             const response = await axios.post('https://vetcare-backend.azurewebsites.net/api/v1/appointments/create', newAppointment, {
@@ -108,17 +108,17 @@ const Appointment = () => {
                 },
             });
 
-            console.log("Respuesta del servidor:", response);
+            console.log("Server response:", response);
 
             if (response.status === 200) {
-                alert('Appointment created successfully!'); // Mensaje en inglés
-                navigate(`/pets/${id}`); // Redirigir al perfil de la mascota
+                alert('Appointment created successfully!'); // Message in English
+                navigate(`/pets/${id}`); // Redirect to the pet's profile
             } else {
-                console.log("La cita no fue creada correctamente. Estado:", response.status);
+                console.log("The appointment was not created correctly. Status:", response.status);
             }
         } catch (error) {
-            console.error('Error al crear la cita:', error);
-            console.log("Detalles del error:", error.response);
+            console.error('Error creating the appointment:', error);
+            console.log("Error details:", error.response);
             if (error.response && error.response.status === 401) {
                 alert('Unauthorized: Please log in again.');
                 localStorage.removeItem('token');
@@ -135,8 +135,8 @@ const Appointment = () => {
     };
 
     return (
-        <div className='bg-cGreen w-full h-screen flex justify-end items-end appointment'>
-            <form onSubmit={handleSubmit} className='w-full md:w-3/4 lg:w-1/2 h-full flex flex-col justify-center items-center bg-cWhite rounded-tr-custom rounded-br-custom p-4 md:p-8 overflow-y-auto'>
+        <div className='bg-cGreen w-full h-fluid min-h-screen flex justify-end items-end appointment'>
+            <form onSubmit={handleSubmit} className='w-full md:w-3/4 lg:w-1/2 h-fluid min-h-screen flex flex-col justify-center items-center bg-cWhite rounded-tr-custom rounded-br-custom p-4 md:p-8'>
                 <div className="flex flex-col items-center justify-center w-full">
                     <h2 className='text-center text-cGreen text-3xl md:text-6xl font-MontserratBold'>
                         New appointment

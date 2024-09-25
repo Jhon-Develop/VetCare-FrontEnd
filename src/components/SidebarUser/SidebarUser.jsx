@@ -18,7 +18,7 @@ const SidebarUser = ({ userId, onClose }) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        AOS.init(); // Inicializa AOS
+        AOS.init();
         axios.get(`https://vetcare-backend.azurewebsites.net/api/v1/users/${userId}`)
             .then(response => setUser(response.data))
             .catch(error => console.error('Error fetching the user!', error));
@@ -46,13 +46,12 @@ const SidebarUser = ({ userId, onClose }) => {
     };
 
     const handleConfirmDelete = () => {
-        // Aquí agrega la lógica para eliminar el usuario
-        console.log('User deleted'); // Simulación de la acción de eliminar
-        setShowModal(false); // Cierra el modal después de eliminar
+        console.log('User deleted');
+        setShowModal(false);
     };
 
     const handleCancelDelete = () => {
-        setShowModal(false); // Cierra el modal si se cancela
+        setShowModal(false);
     };
 
     return (

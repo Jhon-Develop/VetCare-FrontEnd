@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Nav from '../Nav/Nav';
 import './ViewPets.css';
 import axios from 'axios';
-import { jwtDecode } from 'jwt-decode';  // Importación correcta
+import { jwtDecode } from 'jwt-decode';  // Correct import
 import DogCat from '../../assets/Images/dog-and-cat.png';
 import Plus from '../../assets/Images/plus-white.png';
 
@@ -16,7 +16,7 @@ const PetList = () => {
             try {
                 const token = localStorage.getItem('token');
                 if (!token) {
-                    console.error("No se encontró un token de usuario");
+                    console.error("No user token found");
                     return;
                 }
 

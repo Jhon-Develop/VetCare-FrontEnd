@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Dog from '../../assets/Images/img-login.png';
 import './Login.css';
-import {jwtDecode} from 'jwt-decode'; // Asegúrate de que esté instalado correctamente
+import { jwtDecode } from 'jwt-decode'; // Make sure it's installed correctly
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -16,7 +16,7 @@ const Login = () => {
         }
     };
 
-    // Memoriza la función para evitar que se redefina en cada render
+    // Memoize the function to avoid redefining it on each render
     const handleLogin = useCallback(async () => {
         try {
             const response = await fetch('https://vetcare-backend.azurewebsites.net/api/Auth/Login', {
@@ -31,25 +31,25 @@ const Login = () => {
 
             if (response.ok) {
                 localStorage.setItem('token', data.token);
-                const role = jwtDecode(data.token).Rol; // Decodificar el token para obtener el rol
+                const role = jwtDecode(data.token).Rol; // Decode the token to get the role
 
                 if (role === "1") {
                     window.location.href = '/admin-users';
                 } else if (role === "2") {
                     window.location.href = '/Home';
                 } else {
-                    alert('Rol no reconocido');
+                    alert('Unrecognized role');
                 }
             } else {
-                alert(data.message || 'Error en el login');
+                alert(data.message || 'Login error');
             }
         } catch (error) {
-            console.error('Error al intentar iniciar sesión:', error);
-            alert('Ocurrió un error, por favor intenta de nuevo.');
+            console.error('Error attempting to log in:', error);
+            alert('An error occurred, please try again.');
         }
     }, [email, password]);
 
-    // Detectar "Enter" para login
+    // Detect "Enter" for login
     useEffect(() => {
         const handleKeyDown = (e) => {
             if (e.key === 'Enter') {
@@ -63,19 +63,19 @@ const Login = () => {
         };
     }, [handleLogin]);
 
-    // Redirigir a /register con el botón de Sign Up
+    // Redirect to /register with the Sign Up button
     const handleSignUp = () => {
         window.location.href = '/register';
     };
 
-    // Manejo de "Forgot Password"
+    // Handle "Forgot Password"
     const handleForgotPassword = async () => {
         window.location.href = '/recovery-password';
     };
 
     return (
         <div className="w-full h-screen bg-cGreen flex flex-col md:flex-row login">
-            {/* Sección de formulario */}
+            {/* Form section */}
             <div className="w-full md:w-3/2 lg:w-1/2 h-full flex flex-col justify-center items-center bg-cWhite rounded-tr-custom rounded-br-custom p-4 md:p-10">
                 <h2 className="text-center text-cGreen text-4xl md:text-7xl font-MontserratBold">
                     Welcome back!
@@ -121,7 +121,7 @@ const Login = () => {
                 </div>
             </div>
 
-            {/* Sección de imagen */}
+            {/* Image section */}
             <div className="hidden md:flex justify-end items-end w-1/2 h-full login-image">
                 <img src={Dog} alt="Dog" className="max-w-xl h-auto" />
             </div>

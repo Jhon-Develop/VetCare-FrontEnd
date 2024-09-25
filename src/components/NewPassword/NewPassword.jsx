@@ -51,10 +51,10 @@ const NewPassword = () => {
                 newPassword: newPassword 
             });
 
-            // Manejar la respuesta de la API
+            // Handle the API response
             if (response.data.success) {
                 alert('Password successfully updated');
-                // Redirigir al login o realizar cualquier otra acción necesaria
+                // Redirect to login or perform any other necessary action
             } else {
                 navigate('/')
             }
@@ -83,7 +83,7 @@ const NewPassword = () => {
                         placeholder='example@gmail.com'
                         className="w-3/5 md:min-w-96 p-4 h-14 rounded-2xl border border-cPurple text-cGray bg-cWhite text-base md:text-base font-MontserratRegular"
                         value={email}
-                        onChange={(e) => setEmail(e.target.value)} // Actualizar el estado con el email
+                        onChange={(e) => setEmail(e.target.value)} // Update state with email
                     />
                     <input
                         type="password"
@@ -91,7 +91,7 @@ const NewPassword = () => {
                         placeholder='New password'
                         className="w-3/5 md:min-w-96 p-4 h-14 rounded-2xl border border-cPurple text-cGray bg-cWhite text-base md:text-base font-MontserratRegular"
                         value={newPassword}
-                        onChange={(e) => setNewPassword(e.target.value)} // Actualizar el estado con la nueva contraseña
+                        onChange={(e) => setNewPassword(e.target.value)} // Update state with new password
                     />
                     
                     <input
@@ -100,7 +100,7 @@ const NewPassword = () => {
                         placeholder='Confirm new password'
                         className="w-3/5 md:min-w-96 p-4 h-14 rounded-2xl border border-cPurple text-cGray bg-cWhite text-base md:text-base font-MontserratRegular"
                         value={confirmNewPassword}
-                        onChange={(e) => setConfirmNewPassword(e.target.value)} // Actualizar el estado con la confirmación de la contraseña
+                        onChange={(e) => setConfirmNewPassword(e.target.value)} // Update state with password confirmation
                     />
 
                     {errorMessage && (

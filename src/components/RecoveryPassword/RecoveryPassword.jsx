@@ -33,27 +33,27 @@ const PasswordRecovery = () => {
                 const response = await axios.post('https://vetcare-backend.azurewebsites.net/api/Auth/RequestPasswordReset', {
                     email: email,
                 });
-                console.log('Correo enviado:', response.data);
+                console.log('Email sent:', response.data);
 
-                // Activar el cronómetro después de que se envía el correo
+                // Activate the timer after the email is sent
                 setShowTimer(true);
-                setIsSubmitted(true); // Marcar como enviado para no reiniciar el cronómetro
-                setTimeLeft(300); // Reiniciar el cronómetro a 5 minutos
+                setIsSubmitted(true); // Mark as submitted to not reset the timer
+                setTimeLeft(300); // Reset the timer to 5 minutes
             } catch (error) {
-                console.error('Error al enviar el correo:', error);
+                console.error('Error sending the email:', error);
             }
         }
     };
 
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
-        // Si el tiempo ha expirado, reactiva el botón de submit
+        // If the time has expired, reactivate the submit button
         if (timeLeft <= 0) {
             setIsSubmitted(false);
         }
     };
 
-    // Convertir los segundos en minutos y segundos
+    // Convert seconds into minutes and seconds
     const minutes = Math.floor(timeLeft / 60);
     const seconds = timeLeft % 60;
 
@@ -81,7 +81,7 @@ const PasswordRecovery = () => {
                     <button
                         type="submit"
                         className="flex items-center justify-center w-3/5 md:min-w-96 h-14 rounded-2xl border border-cPurple bg-cPurple text-cWhite text-base md:text-xl font-MontserratRegular p-4"
-                        disabled={isSubmitted && timeLeft > 0} // Deshabilitar si está enviado y el tiempo no ha expirado
+                        disabled={isSubmitted && timeLeft > 0}
                     >
                         Submit
                     </button>

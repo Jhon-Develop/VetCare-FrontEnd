@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 const Modal = ({ itemType, itemId, onDeleteSuccess, onCancel }) => {
     const navigate = useNavigate();
-    const token = localStorage.getItem('token'); // Asegúrate de que el token esté definido
+    const token = localStorage.getItem('token');
 
     const deleteItem = async () => {
         try {
