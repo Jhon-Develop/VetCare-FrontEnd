@@ -7,9 +7,12 @@ import File from '../../assets/Images/folder-white.png';
 import Trash from '../../assets/Images/delete.png';
 import Edit from '../../assets/Images/edit.png';
 import Header from '../../components/Nav/Nav.jsx';
+import Modal from '../Modal/Modal.jsx';
 
 const AdministratorPets = () => {
     const [pets, setPets] = useState([]);
+    const [showModal, setShowModal] = useState(false);
+    const [petIdToDelete, setPetIdToDelete] = useState(null);
 
     useEffect(() => {
         axios.get('https://vetcare-backend.azurewebsites.net/api/v1/Pet/allPets')
@@ -28,6 +31,7 @@ const AdministratorPets = () => {
     const handleAdminPets = () => {
         window.location.href = '/admin-pets';
     };
+
     const handleAdminAppointments = () => {
         window.location.href = '/admin-appointment';
     };
@@ -38,6 +42,27 @@ const AdministratorPets = () => {
 
     const handleEditPet = (petId) => {
         window.location.href = `/pets/${petId}/update`;
+    };
+
+    const handleDeleteClick = (petId) => {
+        setPetIdToDelete(petId);
+        setShowModal(true);
+    };
+
+    const handleConfirmDelete = () => {
+        axios.delete(`https://vetcare-backend.azurewebsites.net/api/v1/Pet/${petIdToDelete}`)
+            .then(response => {
+                setPets(prevPets => prevPets.filter(pet => pet.id !== petIdToDelete));
+                setShowModal(false);
+            })
+            .catch(error => {
+                console.error('There was an error deleting the pet!', error);
+                setShowModal(false); 
+            });
+    };
+
+    const handleCancelDelete = () => {
+        setShowModal(false);
     };
 
     return (
@@ -82,16 +107,16 @@ const AdministratorPets = () => {
                             <tbody className="divide-y divide-gray-200">
                                 {pets.length > 0 ? (
                                     pets.map((pet) => (
-                                        <tr key={pet.dateOfBirth}>
+                                        <tr key={pet.id}>
                                             <td className="whitespace-nowrap py-4 pl-4 pr-3 text-base font-medium sm:pl-6 capitalize">{pet.name}</td>
                                             <td className="whitespace-nowrap px-3 py-4 text-base text-gray-500 capitalize">{pet.breed}</td>
                                             <td className="whitespace-nowrap px-3 py-4 text-base text-gray-500">{pet.birthDate}</td>
-                                            <td className="whitespace-nowrap px-3 py-4 text-base text-gray-500  capitalize">{pet.sex}</td>
+                                            <td className="whitespace-nowrap px-3 py-4 text-base text-gray-500 capitalize">{pet.sex}</td>
                                             <td className="relative py-4 pl-3 pr-4 flex justify-center items-center sm:pr-6 space-x-4">
                                                 <button onClick={() => handleEditPet(pet.id)}>
                                                     <img className='w-6 h-6' src={Edit} alt="Edit" />
                                                 </button>
-                                                <button className='bg-cPurple w-8 h-8 flex justify-center items-center rounded-lg'>
+                                                <button className='bg-cPurple w-8 h-8 flex justify-center items-center rounded-lg' onClick={() => handleDeleteClick(pet.id)}>
                                                     <img className='w-6 h-6' src={Trash} alt="Delete" />
                                                 </button>
                                             </td>
@@ -109,6 +134,16 @@ const AdministratorPets = () => {
                     </div>
                 </div>
             </main>
+
+            {/* Modal component */}
+            {showModal && (
+                <Modal
+                    itemType="Pet"
+                    itemId={petIdToDelete}
+                    onDeleteSuccess={handleConfirmDelete}
+                    onCancel={handleCancelDelete} 
+                />
+            )}
         </div>
     );
 };

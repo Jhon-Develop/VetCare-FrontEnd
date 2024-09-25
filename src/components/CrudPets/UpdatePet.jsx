@@ -224,14 +224,17 @@ const UpdatePet = () => {
                         Save
                     </button>
                 </div>
-                <button
-                    onClick={ClickExit}
-                    className="absolute top-6 right-6"
-                >
-                    <img src={Exit} alt="Exit" className="w-6 h-6" />
-                </button>
-                <img src={Dog} alt="Dog" className="w-1/2 absolute bottom-0 opacity-10" />
             </form>
+            <div className='hidden md:flex justify-end items-end w-1/2 h-full'>
+                <div className='bg-cPurple w-14 h-14 lg:w-14 lg:h-14 px-4 py-2 rounded-full shadow-lg hover:bg-[#4e066b] transition duration-300 text-2xl lg:text-2xl fixed top-5 right-5 flex justify-center items-center text-cWhite'>
+                    <button
+                        onClick={ClickExit}
+                        className="">
+                        <img src={Exit} alt="Add user" />
+                    </button>
+                </div>
+                <img src={Dog} alt="Dog" className="max-w-xs md:max-w-lg h-auto" />
+            </div>
         </div>
     );
 };
